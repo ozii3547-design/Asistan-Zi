@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Asistan Zi</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkFzaXN0YW4gWmkiLCAic2hvcnRfbmFtZSI6ICJBc2lzdGFuIFppIiwgImRlc2NyaXB0aW9uIjogIktpXHUwMTVmaXNlbCBwbGFubGFtYSB1eWd1bGFtYXNcdTAxMzEiLCAic3RhcnRfdXJsIjogIi4vaW5kZXguaHRtbCIsICJzY29wZSI6ICIuLyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEYwRjEzIiwgInRoZW1lX2NvbG9yIjogIiNGRjZCMzUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhkcFpIUm9QU0l4T1RJaUlHaGxhV2RvZEQwaU1Ua3lJajRLSUNBOGNtVmpkQ0IzYVdSMGFEMGlNVGt5SWlCb1pXbG5hSFE5SWpFNU1pSWdjbmc5SWpRd0lpQm1hV3hzUFNJak1FWXdSakV6SWk4K0NpQWdQSFJsZUhRZ2VEMGlPVFlpSUhrOUlqRXpNQ0lnWm05dWRDMXphWHBsUFNJeE1EQWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpSUdadmJuUXRabUZ0YVd4NVBTSnpaWEpwWmlJKzhKK1hrend2ZEdWNGRENEtQQzl6ZG1jKyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9LCB7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhPVElpSUdobGFXZG9kRDBpTVRreUlqNEtJQ0E4Y21WamRDQjNhV1IwYUQwaU1Ua3lJaUJvWldsbmFIUTlJakU1TWlJZ2NuZzlJalF3SWlCbWFXeHNQU0lqTUVZd1JqRXpJaTgrQ2lBZ1BIUmxlSFFnZUQwaU9UWWlJSGs5SWpFek1DSWdabTl1ZEMxemFYcGxQU0l4TURBaUlIUmxlSFF0WVc1amFHOXlQU0p0YVdSa2JHVWlJR1p2Ym5RdFptRnRhV3g1UFNKelpYSnBaaUkrOEorWGt6d3ZkR1Y0ZEQ0S1BDOXpkbWMrIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ=="/>
+  <meta name="theme-color" content="#FF6B35"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Asistan Zi"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0F0F13;font-family:'Poppins','Segoe UI',sans-serif;}
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+    input[type=number]{-moz-appearance:textfield;}
+    ::-webkit-scrollbar{width:4px;}
+    ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:#2A2A38;border-radius:2px;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+const { useState, useRef, useEffect, useCallback } = React;
+
+const COLORS = {
+  bg: "#0F0F13", card: "#1A1A22", cardBorder: "#2A2A38",
+  accent: "#FF6B35", accentSoft: "#FF6B3520",
+  green: "#4ECDC4", greenSoft: "#4ECDC420",
+  purple: "#A855F7", purpleSoft: "#A855F720",
+  blue: "#3B82F6", blueSoft: "#3B82F620",
+  yellow: "#F59E0B", yellowSoft: "#F59E0B20",
+  text: "#F0EDE8", muted: "#7A7A8C",
+};
+
+const priorities = {
+  yüksek: { label: "Yüksek", color: "#EF4444", bg: "#EF444420" },
+  orta:   { label: "Orta",   color: "#F59E0B", bg: "#F59E0B20" },
+  düşük:  { label: "Düşük",  color: "#4ECDC4", bg: "#4ECDC420" },
+};
+
+const taskTypes = {
+  gunluk:  { label:"Günlük",   color:"#4ECDC4", bg:"#4ECDC420", emoji:"🔄", desc:"Her gün sıfırlanır" },
+  haftalik:{ label:"Haftalık", color:"#3B82F6", bg:"#3B82F620", emoji:"📅", desc:"Her Pazartesi sıfırlanır" },
+  aylik:   { label:"Aylık",    color:"#A855F7", bg:"#A855F720", emoji:"🗓️", desc:"Her ay başı sıfırlanır" },
+  teksefer:{ label:"Tek Seferlik", color:"#F59E0B", bg:"#F59E0B20", emoji:"⚡", desc:"Tamamlanınca kalır" },
+};
+const MONTHS_TR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const DAYS_TR = ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
+const EMOJIS = ["📌","🏠","💰","📱","🏥","🎂","📊","🛒","🚗","✈️","💊","📅"];
+const reminderColors = ["#FF6B35","#4ECDC4","#A855F7","#3B82F6","#F59E0B","#EC4899","#10B981"];
+
+const initialTasks = [
+  { id: 1, text: "Haftalık raporu hazırla", priority: "yüksek", type: "haftalik", done: false, createdAt: Date.now() },
+  { id: 2, text: "Toplantı notlarını özetle", priority: "orta", type: "gunluk", done: false, createdAt: Date.now() },
+  { id: 3, text: "Spor yap", priority: "düşük", type: "gunluk", done: true, createdAt: Date.now() },
+];
+
+const initialReminders = [
+  { id: 1, text: "Kira ödemesi", day: 1, color: "#FF6B35", emoji: "🏠" },
+  { id: 2, text: "Telefon faturası", day: 5, color: "#3B82F6", emoji: "📱" },
+  { id: 3, text: "Maaş günü 🎉", day: 15, color: "#4ECDC4", emoji: "💰" },
+  { id: 4, text: "Aylık hedef değerlendirme", day: 28, color: "#A855F7", emoji: "📊" },
+];
+
+function AIThinkingDots() {
+  return (
+    <span style={{ display:"inline-flex", gap:4, alignItems:"center" }}>
+      {[0,1,2].map(i=>(
+        <span key={i} style={{ width:6,height:6,borderRadius:"50%",background:COLORS.accent,
+          animation:`dot-bounce 1.2s ease-in-out ${i*0.2}s infinite` }}/>
+      ))}
+      <style>{`@keyframes dot-bounce{0%,80%,100%{transform:scale(0.5);opacity:0.3}40%{transform:scale(1);opacity:1}}`}</style>
+    </span>
+  );
+}
+
+function Badge({ children, color, bg }) {
+  return (
+    <span style={{ fontSize:10, padding:"2px 8px", borderRadius:10, background:bg, color, fontWeight:"bold" }}>
+      {children}
+    </span>
+  );
+}
+
+// ─── NOTIFICATION TOAST ─────────────────────────────────────────
+function NotificationToast({ notifications, onDismiss }) {
+  if (!notifications.length) return null;
+  return (
+    <div style={{ position:"fixed", top:16, left:"50%", transform:"translateX(-50%)", zIndex:9999,
+      display:"flex", flexDirection:"column", gap:8, width:"calc(100% - 32px)", maxWidth:358,
+      pointerEvents:"none" }}>
+      <style>{`
+        @keyframes slide-in { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes slide-out { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-20px)} }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+        input[type=number] { -moz-appearance:textfield; }
+      `}</style>
+      {notifications.map(n => (
+        <div key={n.id} style={{
+          background: `linear-gradient(135deg, #1E1B2E, #12121A)`,
+          border: `1px solid ${n.color}60`,
+          borderLeft: `4px solid ${n.color}`,
+          borderRadius: 14, padding:"12px 14px",
+          display:"flex", alignItems:"center", gap:12,
+          boxShadow: `0 8px 32px #00000080, 0 0 0 1px ${n.color}20`,
+          animation:"slide-in 0.35s cubic-bezier(0.34,1.56,0.64,1)",
+          pointerEvents:"all",
+        }}>
+          <div style={{ fontSize:22, flexShrink:0 }}>{n.emoji}</div>
+          <div style={{ flex:1 }}>
+            <div style={{ color:n.color, fontSize:11, fontWeight:"bold", letterSpacing:1, textTransform:"uppercase", marginBottom:2 }}>
+              ⏰ Yarın Hatırlatıcı!
+            </div>
+            <div style={{ color:COLORS.text, fontSize:13, fontWeight:"bold" }}>{n.text}</div>
+            <div style={{ color:COLORS.muted, fontSize:11, marginTop:1 }}>
+              Her ayın {n.day}. günü — yarın!
+            </div>
+          </div>
+          <button onClick={()=>onDismiss(n.id)} style={{
+            background:"none", border:`1px solid ${COLORS.cardBorder}`, borderRadius:8,
+            color:COLORS.muted, cursor:"pointer", fontSize:14, padding:"4px 8px", flexShrink:0,
+          }}>✕</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── VARDİYA SİSTEMİ ────────────────────────────────────────────
+// Referans: 9 Mart 2026 haftası (Pazartesi) = V2
+const SHIFT_REF_MONDAY = new Date(2026, 2, 9); // 9 Mart 2026
+
+// V1 Cumartesi döngüsü (V1 haftaları arasında, her 2 takvim haftasında bir V1 gelir):
+// 16 Mar V1 = çalış (index 0) → 21 Mar Cumartesi çalış ✓
+// 30 Mar V1 = izin  (index 1) → 4  Nis Cumartesi izin  ✓
+// 13 Nis V1 = çalış (index 2) → 18 Nis Cumartesi çalış ✓
+// 27 Nis V1 = çalış (index 0) → 2  May Cumartesi çalış
+// 11 May V1 = izin  (index 1) → 16 May Cumartesi izin
+// Döngü: index % 3: 0=çalış, 1=izin, 2=çalış
+const V1_SAT_REF_MONDAY = new Date(2026, 2, 16); // 16 Mart 2026 = V1 index 0
+
+function getWeekMonday(date) {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const dow = d.getDay();
+  const diff = dow === 0 ? -6 : 1 - dow;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+
+function getShiftForDate(date) {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const dow = d.getDay();
+
+  if (dow === 0) return "izin"; // Pazar hep izin
+
+  const monday = getWeekMonday(d);
+  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+  const weekDiff = Math.round((monday - SHIFT_REF_MONDAY) / msPerWeek);
+  const shift = weekDiff % 2 === 0 ? "v2" : "v1";
+
+  if (dow === 6) {
+    if (shift === "v2") return "izin"; // V2 haftası cumartesi hep izin
+
+    // V1 haftası cumartesi döngüsü: her 2 takvim haftasında bir V1, 3 V1'de bir izin
+    // index%3 == 0 → çalış, 1 → izin, 2 → çalış
+    const v1Diff = Math.round((monday - V1_SAT_REF_MONDAY) / msPerWeek);
+    const v1Index = Math.round(v1Diff / 2); // her 2 takvim haftası = 1 V1 haftası
+    if (((v1Index % 3) + 3) % 3 === 1) return "izin";
+    return "v1";
+  }
+
+  return shift;
+}
+
+const SHIFT_STYLES = {
+  v1:     { label:"V1",    time:"07:00–15:00", color:"#3B82F6", bg:"#3B82F615", emoji:"🌅" },
+  v2:     { label:"V2",    time:"15:00–23:00", color:"#A855F7", bg:"#A855F715", emoji:"🌆" },
+  izin:   { label:"İzin",  time:"—",           color:"#4ECDC4", bg:"#4ECDC415", emoji:"😴" },
+  tatil:      { label:"Tatil",      time:"Kapalı",    color:"#FF6B35", bg:"#FF6B3520", emoji:"🎉" },
+  arife:      { label:"Arife",      time:"Yarım gün", color:"#F59E0B", bg:"#F59E0B20", emoji:"🌙" },
+  yillikIzin: { label:"Yıllık İzin",time:"—",         color:"#EC4899", bg:"#EC489920", emoji:"🏖️" },
+};
+
+// Türkiye 2026 Resmi Tatilleri
+const PUBLIC_HOLIDAYS_2026 = {
+  "2026-3-19":  { name:"Ramazan Bayramı Arife", arife:true },
+  "2026-3-20":  { name:"Ramazan Bayramı 1. Gün" },
+  "2026-3-21":  { name:"Ramazan Bayramı 2. Gün" },
+  "2026-3-22":  { name:"Ramazan Bayramı 3. Gün" },
+  "2026-4-23":  { name:"Ulusal Egemenlik ve Çocuk Bayramı" },
+  "2026-5-1":   { name:"Emek ve Dayanışma Günü" },
+  "2026-5-19":  { name:"Atatürk'ü Anma, Gençlik ve Spor Bayramı" },
+  "2026-5-26":  { name:"Kurban Bayramı Arife", arife:true },
+  "2026-5-27":  { name:"Kurban Bayramı 1. Gün" },
+  "2026-5-28":  { name:"Kurban Bayramı 2. Gün" },
+  "2026-5-29":  { name:"Kurban Bayramı 3. Gün" },
+  "2026-5-30":  { name:"Kurban Bayramı 4. Gün" },
+  "2026-7-15":  { name:"Demokrasi ve Millî Birlik Günü" },
+  "2026-8-3":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-4":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-5":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-6":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-7":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-8":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-9":  { name:"Yıllık İzin", yillikIzin:true },
+  "2026-8-30":  { name:"Zafer Bayramı" },
+  "2026-10-28": { name:"Cumhuriyet Bayramı Arife", arife:true },
+  "2026-10-29": { name:"Cumhuriyet Bayramı" },
+};
+
+function getHoliday(year, month1, day) {
+  const key = `${year}-${month1}-${day}`;
+  return PUBLIC_HOLIDAYS_2026[key] || null;
+}
+
+function CalendarTab({ reminders, setReminders }) {
+  const [calView, setCalView] = useState("is");
+  return (
+    <div>
+      <div style={{ display:"flex", background:COLORS.card, borderRadius:14, padding:4, marginBottom:16, border:`1px solid ${COLORS.cardBorder}` }}>
+        <button onClick={()=>setCalView("ozel")} style={{
+          flex:1, padding:"9px 8px", borderRadius:10, border:"none", cursor:"pointer", fontFamily:"inherit",
+          background: calView==="ozel" ? `linear-gradient(135deg,${COLORS.green},#10B981)` : "transparent",
+          color: calView==="ozel" ? "#fff" : COLORS.muted,
+          fontSize:13, fontWeight: calView==="ozel" ? "bold" : "normal",
+        }}>🏠 Özel Takvim</button>
+        <button onClick={()=>setCalView("is")} style={{
+          flex:1, padding:"9px 8px", borderRadius:10, border:"none", cursor:"pointer", fontFamily:"inherit",
+          background: calView==="is" ? `linear-gradient(135deg,${COLORS.blue},#6366F1)` : "transparent",
+          color: calView==="is" ? "#fff" : COLORS.muted,
+          fontSize:13, fontWeight: calView==="is" ? "bold" : "normal",
+        }}>💼 İş Takvimi</button>
+      </div>
+      {calView==="is" ? <IsCalendar/> : <OzelCalendar reminders={reminders} setReminders={setReminders}/>}
+    </div>
+  );
+}
+
+function IsCalendar() {
+  const today = new Date();
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const [viewYear, setViewYear]   = useState(today.getFullYear());
+  const [selectedDay, setSelectedDay] = useState(today.getDate());
+
+  const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
+  const firstDayJS  = new Date(viewYear, viewMonth, 1).getDay();
+  const startOffset = (firstDayJS + 6) % 7;
+  const isToday  = d => d===today.getDate() && viewMonth===today.getMonth() && viewYear===today.getFullYear();
+  const getShift = d => getShiftForDate(new Date(viewYear, viewMonth, d));
+  const getHol   = d => getHoliday(viewYear, viewMonth+1, d);
+  const prevMonth = () => { if(viewMonth===0){setViewMonth(11);setViewYear(y=>y-1);}else setViewMonth(m=>m-1); };
+  const nextMonth = () => { if(viewMonth===11){setViewMonth(0);setViewYear(y=>y+1);}else setViewMonth(m=>m+1); };
+
+  return (
+    <div>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:14 }}>
+        <button onClick={prevMonth} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, width:34, height:34, color:COLORS.text, fontSize:20, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>‹</button>
+        <div style={{ textAlign:"center" }}>
+          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:16 }}>{MONTHS_TR[viewMonth]} {viewYear}</div>
+          <div style={{ color:COLORS.muted, fontSize:11, marginTop:2 }}>Vardiya & Tatil Takvimi</div>
+        </div>
+        <button onClick={nextMonth} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, width:34, height:34, color:COLORS.text, fontSize:20, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>›</button>
+      </div>
+
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:2, marginBottom:4 }}>
+        {DAYS_TR.map(d=><div key={d} style={{ textAlign:"center", fontSize:10, color:COLORS.muted, padding:"3px 0" }}>{d}</div>)}
+      </div>
+
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:2, marginBottom:12 }}>
+        {Array.from({length:startOffset}).map((_,i)=><div key={`e${i}`}/>)}
+        {Array.from({length:daysInMonth},(_,i)=>i+1).map(day => {
+          const sel   = day===selectedDay;
+          const tod   = isToday(day);
+          const shift = getShift(day);
+          const hol   = getHol(day);
+          const ss    = hol ? (hol.yillikIzin ? SHIFT_STYLES.yillikIzin : hol.arife ? SHIFT_STYLES.arife : SHIFT_STYLES.tatil) : SHIFT_STYLES[shift];
+          return (
+            <button key={day} onClick={()=>setSelectedDay(day)} style={{
+              aspectRatio:"1", borderRadius:9, cursor:"pointer",
+              border: sel ? `2px solid ${COLORS.accent}` : `1px solid ${tod?COLORS.accent+"50":hol?ss.color+"60":COLORS.cardBorder}`,
+              background: sel ? COLORS.accentSoft : tod ? "#1F1F2A" : ss.bg,
+              color: sel ? COLORS.accent : tod ? COLORS.accent : COLORS.text,
+              fontSize:11, fontWeight:tod||hol?"bold":"normal",
+              display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:1, padding:1,
+            }}>
+              <span>{day}</span>
+              <span style={{ fontSize:7, color:sel?COLORS.accent:ss.color, fontWeight:"bold", lineHeight:1 }}>
+                {hol ? ss.emoji : ss.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{ display:"flex", gap:6, marginBottom:12, justifyContent:"center", flexWrap:"wrap" }}>
+        {Object.entries(SHIFT_STYLES).map(([k,s])=>(
+          <div key={k} style={{ display:"flex", alignItems:"center", gap:4, background:s.bg, border:`1px solid ${s.color}40`, borderRadius:20, padding:"3px 10px" }}>
+            <span style={{ fontSize:11 }}>{s.emoji}</span>
+            <span style={{ fontSize:10, color:s.color, fontWeight:"bold" }}>{s.label}</span>
+            {(k==="v1"||k==="v2") && <span style={{ fontSize:9, color:COLORS.muted }}>{s.time}</span>}
+          </div>
+        ))}
+      </div>
+
+      {(() => {
+        const shift = getShift(selectedDay);
+        const hol   = getHol(selectedDay);
+        const ss    = hol ? (hol.yillikIzin ? SHIFT_STYLES.yillikIzin : hol.arife ? SHIFT_STYLES.arife : SHIFT_STYLES.tatil) : SHIFT_STYLES[shift];
+        return (
+          <div style={{ background:ss.bg, borderRadius:14, border:`1px solid ${ss.color}40`, padding:"12px 14px", display:"flex", alignItems:"center", gap:12 }}>
+            <div style={{ fontSize:28 }}>{ss.emoji}</div>
+            <div>
+              <div style={{ color:ss.color, fontWeight:"bold", fontSize:15 }}>
+                {MONTHS_TR[viewMonth]} {selectedDay}{hol ? ` — ${hol.name}` : ` — ${ss.label}`}
+              </div>
+              <div style={{ color:COLORS.muted, fontSize:12, marginTop:2 }}>
+                {hol?.arife ? "🌙 Arife — Yarım gün mesai" :
+                 hol?.yillikIzin ? "🏖️ Yıllık izin — İyi tatiller!" :
+                 hol ? "🎉 Resmi Tatil — Fabrika kapalı!" :
+                 shift==="izin" ? "İzin günün 😊" : `Mesai: ${ss.time}`}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
+
+function OzelCalendar({ reminders, setReminders }) {
+  const today = new Date();
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const [viewYear, setViewYear]   = useState(today.getFullYear());
+  const [selectedDay, setSelectedDay] = useState(today.getDate());
+  const [showAdd, setShowAdd]     = useState(false);
+  const [newText, setNewText]     = useState("");
+  const [newEmoji, setNewEmoji]   = useState("📌");
+  const [newColor, setNewColor]   = useState(reminderColors[0]);
+  const [editId, setEditId]       = useState(null);
+
+  const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
+  const firstDayJS  = new Date(viewYear, viewMonth, 1).getDay();
+  const startOffset = (firstDayJS + 6) % 7;
+  const remindersOn  = d => reminders.filter(r => r.day === d);
+  const selectedList = remindersOn(selectedDay);
+  const isToday      = d => d===today.getDate() && viewMonth===today.getMonth() && viewYear===today.getFullYear();
+  const prevMonth = () => { if(viewMonth===0){setViewMonth(11);setViewYear(y=>y-1);}else setViewMonth(m=>m-1); };
+  const nextMonth = () => { if(viewMonth===11){setViewMonth(0);setViewYear(y=>y+1);}else setViewMonth(m=>m+1); };
+
+  const saveReminder = () => {
+    if (!newText.trim()) return;
+    if (editId) {
+      setReminders(p => p.map(r => r.id===editId ? {...r, text:newText, emoji:newEmoji, color:newColor} : r));
+      setEditId(null);
+    } else {
+      setReminders(p => [...p, { id:Date.now(), text:newText.trim(), day:selectedDay, color:newColor, emoji:newEmoji }]);
+    }
+    setNewText(""); setShowAdd(false);
+  };
+  const startEdit = r => { setEditId(r.id); setNewText(r.text); setNewEmoji(r.emoji); setNewColor(r.color); setShowAdd(true); };
+
+  const upcoming = [...reminders].sort((a,b) => {
+    const until = d => d >= today.getDate() ? d - today.getDate() : 31 - today.getDate() + d;
+    return until(a.day) - until(b.day);
+  }).slice(0,5);
+
+  return (
+    <div>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:14 }}>
+        <button onClick={prevMonth} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, width:34, height:34, color:COLORS.text, fontSize:20, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>‹</button>
+        <div style={{ textAlign:"center" }}>
+          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:16 }}>{MONTHS_TR[viewMonth]} {viewYear}</div>
+          <div style={{ color:COLORS.muted, fontSize:11, marginTop:2 }}>{reminders.length} aylık hatırlatıcı</div>
+        </div>
+        <button onClick={nextMonth} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, width:34, height:34, color:COLORS.text, fontSize:20, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>›</button>
+      </div>
+
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:2, marginBottom:4 }}>
+        {DAYS_TR.map(d=><div key={d} style={{ textAlign:"center", fontSize:10, color:COLORS.muted, padding:"3px 0" }}>{d}</div>)}
+      </div>
+
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:2, marginBottom:16 }}>
+        {Array.from({length:startOffset}).map((_,i)=><div key={`e${i}`}/>)}
+        {Array.from({length:daysInMonth},(_,i)=>i+1).map(day => {
+          const dots = remindersOn(day);
+          const sel  = day===selectedDay;
+          const tod  = isToday(day);
+          return (
+            <button key={day} onClick={()=>setSelectedDay(day)} style={{
+              aspectRatio:"1", borderRadius:9, cursor:"pointer",
+              border: sel ? `2px solid ${COLORS.green}` : `1px solid ${tod?COLORS.green+"50":COLORS.cardBorder}`,
+              background: sel ? COLORS.greenSoft : tod ? "#1A2420" : COLORS.card,
+              color: sel ? COLORS.green : tod ? COLORS.green : COLORS.text,
+              fontSize:11, fontWeight:tod?"bold":"normal",
+              display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:1, padding:1,
+            }}>
+              <span>{day}</span>
+              {dots.length>0 && (
+                <div style={{ display:"flex", gap:1 }}>
+                  {dots.slice(0,3).map(r=><div key={r.id} style={{ width:4,height:4,borderRadius:"50%",background:r.color }}/>)}
+                </div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14, marginBottom:14 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+          <div>
+            <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:14 }}>Her Ayın {selectedDay}. Günü</div>
+            <div style={{ color:COLORS.muted, fontSize:11, marginTop:2 }}>
+              {selectedList.length===0 ? "Hatırlatıcı yok" : `${selectedList.length} hatırlatıcı`}
+            </div>
+          </div>
+          <button onClick={()=>{ setShowAdd(!showAdd); setEditId(null); setNewText(""); }}
+            style={{ background: showAdd?COLORS.greenSoft:`linear-gradient(135deg,${COLORS.green},#10B981)`,
+              border: showAdd?`1px solid ${COLORS.green}`:"none",
+              borderRadius:10, padding:"6px 14px", color:showAdd?COLORS.green:"#fff",
+              fontSize:12, cursor:"pointer", fontFamily:"inherit", fontWeight:"bold" }}>
+            {showAdd ? "İptal" : "+ Ekle"}
+          </button>
+        </div>
+
+        {showAdd && (
+          <div style={{ background:COLORS.bg, borderRadius:12, padding:12, marginBottom:12, border:`1px solid ${COLORS.cardBorder}` }}>
+            <div style={{ color:COLORS.muted, fontSize:11, marginBottom:8 }}>
+              {editId ? "Hatırlatıcıyı düzenle" : `Her ayın ${selectedDay}. gününe ekle`}
+            </div>
+            <input value={newText} onChange={e=>setNewText(e.target.value)} onKeyDown={e=>e.key==="Enter"&&saveReminder()}
+              placeholder="Ödeme veya hatırlatıcı..."
+              style={{ width:"100%", background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                padding:"9px 12px", color:COLORS.text, fontSize:13, outline:"none", boxSizing:"border-box",
+                marginBottom:10, fontFamily:"inherit" }}/>
+            <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:10 }}>
+              {EMOJIS.map(e=>(
+                <button key={e} onClick={()=>setNewEmoji(e)} style={{ width:32,height:32,borderRadius:8,fontSize:16,cursor:"pointer",
+                  border:`1px solid ${newEmoji===e?COLORS.green:COLORS.cardBorder}`,
+                  background:newEmoji===e?COLORS.greenSoft:COLORS.card }}>{e}</button>
+              ))}
+            </div>
+            <div style={{ display:"flex", gap:8, marginBottom:12, alignItems:"center" }}>
+              <span style={{ fontSize:11, color:COLORS.muted }}>Renk:</span>
+              {reminderColors.map(c=>(
+                <button key={c} onClick={()=>setNewColor(c)} style={{ width:22,height:22,borderRadius:"50%",background:c,cursor:"pointer",
+                  border:newColor===c?`3px solid ${COLORS.text}`:"2px solid transparent", outline:"none" }}/>
+              ))}
+            </div>
+            <button onClick={saveReminder} style={{ width:"100%", padding:"10px",
+              background:`linear-gradient(135deg,${COLORS.green},#10B981)`,
+              border:"none", borderRadius:10, color:"#fff", fontSize:13, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>
+              {editId ? "💾 Güncelle" : "✅ Ekle"}
+            </button>
+          </div>
+        )}
+
+        {selectedList.length===0 && !showAdd && (
+          <div style={{ textAlign:"center", color:COLORS.muted, padding:"16px 0", fontSize:13 }}>Bu gün için hatırlatıcı yok</div>
+        )}
+        {selectedList.map(r=>(
+          <div key={r.id} style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 0", borderBottom:`1px solid ${COLORS.cardBorder}` }}>
+            <div style={{ width:34,height:34,borderRadius:10,background:r.color+"25", border:`1px solid ${r.color}50`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16 }}>
+              {r.emoji}
+            </div>
+            <div style={{ flex:1 }}>
+              <div style={{ color:COLORS.text, fontSize:13 }}>{r.text}</div>
+              <div style={{ color:r.color, fontSize:10, marginTop:1 }}>Her ay {r.day}. gün 🔁</div>
+            </div>
+            <div style={{ display:"flex", gap:6 }}>
+              <button onClick={()=>startEdit(r)} style={{ background:"none",border:"none",color:COLORS.muted,cursor:"pointer",fontSize:14 }}>✏️</button>
+              <button onClick={()=>setReminders(p=>p.filter(x=>x.id!==r.id))} style={{ background:"none",border:"none",color:COLORS.muted,cursor:"pointer",fontSize:18 }}>×</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14 }}>
+        <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:13, marginBottom:10 }}>⏰ Yaklaşan Ödemeler</div>
+        {upcoming.length===0 && <div style={{ color:COLORS.muted, fontSize:12, textAlign:"center", padding:"10px 0" }}>Henüz hatırlatıcı yok</div>}
+        {upcoming.map(r => {
+          const daysUntil = r.day >= today.getDate() ? r.day - today.getDate() : 31 - today.getDate() + r.day;
+          return (
+            <div key={r.id} onClick={()=>setSelectedDay(r.day)}
+              style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 0", borderBottom:`1px solid ${COLORS.cardBorder}`, cursor:"pointer" }}>
+              <div style={{ width:30,height:30,borderRadius:8,background:r.color+"25", display:"flex",alignItems:"center",justifyContent:"center",fontSize:14 }}>{r.emoji}</div>
+              <div style={{ flex:1 }}>
+                <div style={{ color:COLORS.text, fontSize:12 }}>{r.text}</div>
+                <div style={{ color:COLORS.muted, fontSize:10 }}>Her ayın {r.day}. günü</div>
+              </div>
+              <div style={{ background:daysUntil===0?COLORS.greenSoft:COLORS.card,
+                border:`1px solid ${daysUntil===0?COLORS.green:COLORS.cardBorder}`,
+                borderRadius:8, padding:"3px 8px", fontSize:10,
+                color:daysUntil===0?COLORS.green:COLORS.muted, fontWeight:daysUntil===0?"bold":"normal" }}>
+                {daysUntil===0?"Bugün!":daysUntil===1?"Yarın":`${daysUntil} gün`}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+
+// ─── FİNANS TAB ─────────────────────────────────────────────────
+const FIN_CATEGORIES = {
+  gelir: [
+    { key:"pasif",   label:"Mesai",       emoji:"💎" },
+    { key:"maas",    label:"Maaş",        emoji:"💼" },
+    { key:"ek",      label:"Avanta",      emoji:"🤑" },
+    { key:"kira_g",  label:"Kira",        emoji:"🏠" },
+    { key:"alsat",   label:"Al-Sat",      emoji:"📦" },
+    { key:"internet",label:"İnternet",    emoji:"🌐" },
+    { key:"diger_g", label:"Diğer",       emoji:"➕" },
+  ],
+  gider: [
+    { key:"yemek",   label:"Yemek",      emoji:"🍔" },
+    { key:"fatura",  label:"Fatura",     emoji:"📱" },
+    { key:"zevk",    label:"Zevk",       emoji:"🎯" },
+    { key:"market",  label:"Market",     emoji:"🛒" },
+    { key:"kira",    label:"Kira",       emoji:"🏠" },
+    { key:"ulasim",  label:"Ulaşım",     emoji:"🚗" },
+    { key:"sosyal",  label:"Sosyal",     emoji:"🎉" },
+    { key:"kredi",   label:"Kredi",      emoji:"🏦" },
+    { key:"faiz",    label:"Faiz",       emoji:"📈" },
+    { key:"oyun",    label:"Oyun",       emoji:"🎮" },
+    { key:"giyim",   label:"Giyim",      emoji:"👔" },
+    { key:"diger_e", label:"Diğer",      emoji:"➖" },
+  ],
+};
+
+const ALL_FIN_CATS = [...FIN_CATEGORIES.gelir, ...FIN_CATEGORIES.gider];
+
+function FinanceTab({ ayarlar={} }) {
+  const PB = ayarlar.paraBirimi || "₺";
+  const MESAI1 = ayarlar.mesaiUcret1 || 273;
+  const MESAI2 = ayarlar.mesaiUcret2 || 328;
+  const MAAS = ayarlar.maasUcret || 64748;
+  const PRIM = ayarlar.primUcret || 54578;
+  const today = new Date();
+  const [txs, setTxsRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_finance"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const setTxs = v => { const val = typeof v==="function"?v(txs):v; localStorage.setItem("ga_finance",JSON.stringify(val)); setTxsRaw(val); };
+
+  // Pasif gelirler (kalıcı, her ay tekrar eden)
+  const [pasifGelirler, setPasifGelirlerRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_pasif"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const setPasifGelirler = v => { const val = typeof v==="function"?v(pasifGelirler):v; localStorage.setItem("ga_pasif",JSON.stringify(val)); setPasifGelirlerRaw(val); };
+
+  // Otomatik maaş ve prim ekleme — ayarlar değişince güncelle
+  useEffect(() => {
+    const PRIM_AYLAR = [0, 3, 6, 9];
+    const YILLAR = [2026, 2027];
+    setTxs(prev => {
+      let updated = [...prev];
+      let changed = false;
+      YILLAR.forEach(year => {
+        for (let month = 0; month < 12; month++) {
+          const maasTx = updated.find(t => t.autoId===`maas-${year}-${month}`);
+          if (!maasTx) {
+            updated.push({ id: Date.now()+Math.random(), autoId:`maas-${year}-${month}`, type:"gelir", catKey:"maas", catLabel:"Maaş", emoji:"💼", amount:MAAS, note:"Otomatik", day:15, month, year });
+            changed = true;
+          } else if (maasTx.amount !== MAAS) {
+            updated = updated.map(t => t.autoId===`maas-${year}-${month}` ? {...t, amount:MAAS} : t);
+            changed = true;
+          }
+          if (PRIM_AYLAR.includes(month)) {
+            const primTx = updated.find(t => t.autoId===`prim-${year}-${month}`);
+            if (!primTx) {
+              updated.push({ id: Date.now()+Math.random(), autoId:`prim-${year}-${month}`, type:"gelir", catKey:"ek", catLabel:"Prim", emoji:"🏆", amount:PRIM, note:"Çeyreklik Prim", day:15, month, year });
+              changed = true;
+            } else if (primTx.amount !== PRIM) {
+              updated = updated.map(t => t.autoId===`prim-${year}-${month}` ? {...t, amount:PRIM} : t);
+              changed = true;
+            }
+          }
+        }
+      });
+      return changed ? updated : prev;
+    });
+  }, [MAAS, PRIM]);
+
+  // Pasif gelirleri her ay otomatik enjekte et
+  useEffect(() => {
+    if (!pasifGelirler.length) return;
+    const YILLAR = [2026, 2027];
+    setTxs(prev => {
+      let updated = [...prev];
+      let changed = false;
+      pasifGelirler.forEach(p => {
+        YILLAR.forEach(year => {
+          for (let month = 0; month < 12; month++) {
+            const key = `pasif-${p.id}-${year}-${month}`;
+            if (!updated.some(t => t.autoId===key)) {
+              updated.push({ id: Date.now()+Math.random(), autoId:key, type:"gelir", catKey:"pasif", catLabel:p.ad, emoji:"💸", amount:p.tutar, note:"Pasif Gelir", day:p.day, month, year });
+              changed = true;
+            }
+          }
+        });
+      });
+      return changed ? updated : prev;
+    });
+  }, [pasifGelirler]);
+
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const [viewYear,  setViewYear]  = useState(today.getFullYear());
+  const [showForm,  setShowForm]  = useState(false);
+  const [type,      setType]      = useState("gelir");
+  const [amount,    setAmount]    = useState("");
+  const [catKey,    setCatKey]    = useState("pasif");
+  const [note,      setNote]      = useState("");
+  const [day,       setDay]       = useState(today.getDate());
+  const [kalici,    setKalici]    = useState(false);
+
+  // Düzenli giderler (kalıcı, her ay tekrar eden)
+  const [duzenliGiderler, setDuzenliGiderlerRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_duzenli_gider"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const setDuzenliGiderler = v => { const val = typeof v==="function"?v(duzenliGiderler):v; localStorage.setItem("ga_duzenli_gider",JSON.stringify(val)); setDuzenliGiderlerRaw(val); };
+
+  // Düzenli giderleri her ay otomatik enjekte et
+  useEffect(() => {
+    if (!duzenliGiderler.length) return;
+    const YILLAR = [2026, 2027];
+    setTxs(prev => {
+      let updated = [...prev];
+      let changed = false;
+      duzenliGiderler.forEach(g => {
+        YILLAR.forEach(year => {
+          for (let month = 0; month < 12; month++) {
+            const key = `dgider-${g.id}-${year}-${month}`;
+            if (!updated.some(t => t.autoId===key)) {
+              const cat = ALL_FIN_CATS.find(c=>c.key===g.catKey);
+              updated.push({ id:Date.now()+Math.random(), autoId:key, type:"gider", catKey:g.catKey, catLabel:g.note||cat?.label, emoji:cat?.emoji, amount:g.amount, note:"Düzenli", day:g.day, month, year });
+              changed = true;
+            }
+          }
+        });
+      });
+      return changed ? updated : prev;
+    });
+  }, [duzenliGiderler]);
+
+  // Yıllık özet hesaplama
+  const yillikOzet = (() => {
+    const yil = viewYear;
+    let toplamGelir = 0, toplamGider = 0;
+    const aylar = MONTHS_TR.map((ad, i) => {
+      const ayTxs = txs.filter(t => t.month===i && t.year===yil);
+      const g = ayTxs.filter(t=>t.type==="gelir").reduce((s,t)=>s+t.amount,0);
+      const d = ayTxs.filter(t=>t.type==="gider").reduce((s,t)=>s+t.amount,0);
+      toplamGelir += g; toplamGider += d;
+      return { ad: ad.slice(0,3), gelir:g, gider:d, net:g-d };
+    });
+    const maxVal = Math.max(...aylar.map(a=>Math.max(a.gelir,a.gider)), 1);
+    return { aylar, toplamGelir, toplamGider, net: toplamGelir-toplamGider, maxVal };
+  })();
+
+  const monthTxs = txs.filter(t => t.month===viewMonth && t.year===viewYear);
+  const totalGelir = monthTxs.filter(t=>t.type==="gelir").reduce((s,t)=>s+t.amount,0);
+  const totalGider = monthTxs.filter(t=>t.type==="gider").reduce((s,t)=>s+t.amount,0);
+  const net = totalGelir - totalGider;
+
+  // Group gider by category for chart
+  const giderBycat = {};
+  monthTxs.filter(t=>t.type==="gider").forEach(t => { giderBycat[t.catKey]=(giderBycat[t.catKey]||0)+t.amount; });
+  const giderEntries = Object.entries(giderBycat).sort((a,b)=>b[1]-a[1]);
+
+  // Mesai hesaplama
+  const [mesaiSaat,   setMesaiSaat]   = useState("");
+  const [mesaiDak,    setMesaiDak]    = useState("0");
+  const [mesai2x,     setMesai2x]     = useState(false);
+
+  // Mesai kesim günü: ayın son 7 günü (31'lik→24, 30'luk→23, 28'lik→21, 29'luk→22)
+  const getMesaiKesimGunu = (year, month) => {
+    const sonGun = new Date(year, month + 1, 0).getDate();
+    return sonGun - 7;
+  };
+
+  // Mesai ödeme ayını hesapla:
+  // Bugün kesim gününden ÖNCE → bu ayın mesaisi → bir sonraki ay ödenir
+  // Bugün kesim günü veya SONRA → gelecek ayın mesaisi → iki ay sonra ödenir
+  const mesaiDonem = (() => {
+    const buAy   = today.getMonth();
+    const buYil  = today.getFullYear();
+    const kesim  = getMesaiKesimGunu(buYil, buAy);
+    const gecti  = today.getDate() >= kesim;
+
+    // Kaç ay sonra yatacak: kesim geçmediyse +1, geçtiyse +2
+    const offset = gecti ? 2 : 1;
+    let odemAy  = buAy + offset;
+    let odemYil = buYil;
+    if (odemAy > 11) { odemAy -= 12; odemYil += 1; }
+
+    return {
+      ay: odemAy,
+      yil: odemYil,
+      gecti,
+      kesim,
+      buAyAdi: MONTHS_TR[buAy],
+      odemAyAdi: MONTHS_TR[odemAy],
+    };
+  })();
+
+  const MESAI_BAYRAM = ayarlar.mesaiBayram || 436;
+
+  const hesaplaMesai = (saat, dakika) => {
+    const toplamDak  = (parseInt(saat) || 0) * 60 + (parseInt(dakika) || 0);
+    const toplamSaat = toplamDak / 60;
+    if (mesai2x) {
+      // Bayram: tüm saatler bayram ücreti üzerinden düz hesap
+      const ucret = toplamSaat * MESAI_BAYRAM;
+      return { toplamSaat, toplamDak, ucret, ilk5: toplamSaat, kalan: 0, is2x: true };
+    }
+    if (ayarlar.mesaiAktif === false) {
+      const ucret = toplamSaat * MESAI1;
+      return { toplamSaat, toplamDak, ucret, ilk5: toplamSaat, kalan: 0, sabit: true };
+    }
+    const ilk5  = Math.min(toplamSaat, 5);
+    const kalan = Math.max(toplamSaat - 5, 0);
+    const ucret = ilk5 * MESAI1 + kalan * MESAI2;
+    return { toplamSaat, toplamDak, ucret, ilk5, kalan, is2x: false };
+  };
+
+  const mesaiSonuc = mesaiSaat ? hesaplaMesai(mesaiSaat, mesaiDak) : null;
+
+  const prevMonth = () => { if(viewMonth===0){setViewMonth(11);setViewYear(y=>y-1);}else setViewMonth(m=>m-1); };
+  const nextMonth = () => { if(viewMonth===11){setViewMonth(0);setViewYear(y=>y+1);}else setViewMonth(m=>m+1); };
+
+  const addTx = () => {
+    if (type==="gelir" && catKey==="pasif" && mesaiSonuc) {
+      setTxs(p=>[...p,{ id:Date.now(), type:"gelir", catKey:"pasif",
+        catLabel:`Mesai (${mesaiSonuc.toplamSaat.toFixed(1)}s${mesai2x?" 🎉2x":""})`, emoji:"💎",
+        amount:Math.round(mesaiSonuc.ucret*100)/100,
+        note:`${mesaiSaat}s ${mesaiDak}dk${mesai2x?" bayram":""}`,
+        day:parseInt(day)||3, month:mesaiDonem.ay, year:mesaiDonem.yil }]);
+      setMesaiSaat(""); setMesaiDak("0"); setMesai2x(false); setNote(""); setKalici(false); setShowForm(false);
+      return;
+    }
+    const amt = parseFloat(amount.replace(",","."));
+    if (!amt || amt<=0) return;
+    const cat = ALL_FIN_CATS.find(c=>c.key===catKey);
+    if (kalici) {
+      if (type==="gider") {
+        setDuzenliGiderler(p=>[...p,{ id:Date.now(), catKey, amount:amt, note:note.trim()||cat?.label, day:parseInt(day) }]);
+      } else {
+        setPasifGelirler(p=>[...p,{ id:Date.now(), ad:note.trim()||cat?.label, tutar:amt, day:parseInt(day) }]);
+      }
+    } else {
+      setTxs(p=>[...p,{ id:Date.now(), type, catKey, catLabel:note.trim()||cat?.label, emoji:cat?.emoji, amount:amt, note:note.trim(), day:parseInt(day), month:viewMonth, year:viewYear }]);
+    }
+    setAmount(""); setNote(""); setKalici(false); setShowForm(false);
+  };
+
+  const fmt = n => n.toLocaleString("tr-TR", { minimumFractionDigits:2, maximumFractionDigits:2 });
+
+  return (
+    <div>
+      {/* Month nav */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:14 }}>
+        <button onClick={prevMonth} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, width:34, height:34, color:COLORS.text, fontSize:20, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>‹</button>
+        <div style={{ textAlign:"center" }}>
+          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:16 }}>{MONTHS_TR[viewMonth]} {viewYear}</div>
+          <div style={{ color:COLORS.muted, fontSize:11, marginTop:2 }}>{monthTxs.length} işlem</div>
+        </div>
+        <button onClick={nextMonth} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, width:34, height:34, color:COLORS.text, fontSize:20, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>›</button>
+      </div>
+
+      {/* Özet kartları */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:14 }}>
+        {[
+          { label:"Gelir", value:totalGelir, color:COLORS.green, bg:COLORS.greenSoft, emoji:"📈" },
+          { label:"Gider", value:totalGider, color:"#EF4444", bg:"#EF444420", emoji:"📉" },
+          { label:"Net",   value:net,        color:net>=0?COLORS.green:"#EF4444", bg:net>=0?COLORS.greenSoft:"#EF444420", emoji:net>=0?"✅":"⚠️" },
+        ].map(c=>(
+          <div key={c.label} style={{ background:c.bg, border:`1px solid ${c.color}40`, borderRadius:14, padding:"10px 8px", textAlign:"center" }}>
+            <div style={{ fontSize:16 }}>{c.emoji}</div>
+            <div style={{ color:c.color, fontSize:11, fontWeight:"bold", marginTop:2 }}>{c.label}</div>
+            <div style={{ color:c.color, fontSize:12, fontWeight:"bold", marginTop:2 }}>{fmt(c.value)}{PB}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Gider dağılımı */}
+      {giderEntries.length>0 && (
+        <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14, marginBottom:14 }}>
+          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:13, marginBottom:10 }}>📊 Gider Dağılımı</div>
+          {giderEntries.map(([k,v])=>{
+            const cat = ALL_FIN_CATS.find(c=>c.key===k);
+            const pct = totalGider>0 ? Math.round(v/totalGider*100) : 0;
+            return (
+              <div key={k} style={{ marginBottom:8 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", marginBottom:3 }}>
+                  <span style={{ color:COLORS.text, fontSize:12 }}>{cat?.emoji} {cat?.label||k}</span>
+                  <span style={{ color:COLORS.muted, fontSize:12 }}>{fmt(v)}{PB} <span style={{ color:COLORS.accent }}>%{pct}</span></span>
+                </div>
+                <div style={{ height:5, background:COLORS.cardBorder, borderRadius:3 }}>
+                  <div style={{ height:"100%", borderRadius:3, background:`linear-gradient(90deg,${COLORS.accent},#FF8C5A)`, width:`${pct}%`, transition:"width 0.4s" }}/>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+
+      <button onClick={()=>setShowForm(!showForm)} style={{
+        width:"100%", padding:"11px", marginBottom:14,
+        background: showForm?"transparent":`linear-gradient(135deg,${COLORS.accent},#FF8C5A)`,
+        border: showForm?`1px solid ${COLORS.accent}`:"none",
+        borderRadius:12, color:showForm?COLORS.accent:"#fff",
+        fontSize:13, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>
+        {showForm ? "İptal" : "+ Yeni İşlem Ekle"}
+      </button>
+
+      {/* Form */}
+      {showForm && (
+        <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14, marginBottom:14 }}>
+          {/* Gelir / Gider toggle */}
+          <div style={{ display:"flex", background:COLORS.bg, borderRadius:10, padding:3, marginBottom:12 }}>
+            {["gelir","gider"].map(t=>(
+              <button key={t} onClick={()=>{ setType(t); setCatKey(t==="gelir"?"maas":"market"); }} style={{
+                flex:1, padding:"7px", borderRadius:8, border:"none", cursor:"pointer", fontFamily:"inherit",
+                background: type===t ? (t==="gelir"?COLORS.green:"#EF4444") : "transparent",
+                color: type===t ? "#fff" : COLORS.muted, fontSize:13, fontWeight:"bold" }}>
+                {t==="gelir"?"📈 Gelir":"📉 Gider"}
+              </button>
+            ))}
+          </div>
+
+          {/* Kategori */}
+          <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:12 }}>
+            {FIN_CATEGORIES[type].map(c=>(
+              <button key={c.key} onClick={()=>setCatKey(c.key)} style={{
+                padding:"5px 10px", borderRadius:20, cursor:"pointer", fontFamily:"inherit", fontSize:11,
+                border:`1px solid ${catKey===c.key?(type==="gelir"?COLORS.green:"#EF4444"):COLORS.cardBorder}`,
+                background:catKey===c.key?(type==="gelir"?COLORS.greenSoft:"#EF444420"):"transparent",
+                color:catKey===c.key?(type==="gelir"?COLORS.green:"#EF4444"):COLORS.muted }}>
+                {c.emoji} {c.label}
+              </button>
+            ))}
+          </div>
+
+          {type==="gelir" && catKey==="pasif" ? (
+            <div style={{ marginBottom:10 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+                <div style={{ color:COLORS.muted, fontSize:11 }}>💎 Haftalık mesai süresini gir</div>
+                <button onClick={()=>setMesai2x(!mesai2x)} style={{
+                  padding:"4px 12px", borderRadius:20, cursor:"pointer", fontFamily:"inherit", fontSize:12, fontWeight:"bold",
+                  border:`2px solid ${mesai2x?"#F59E0B":COLORS.cardBorder}`,
+                  background: mesai2x ? "#F59E0B20" : "transparent",
+                  color: mesai2x ? "#F59E0B" : COLORS.muted,
+                }}>🎉 2x Bayram</button>
+              </div>
+              <div style={{ display:"flex", gap:8, marginBottom:8 }}>
+                <div style={{ flex:1, position:"relative" }}>
+                  <input value={mesaiSaat} onChange={e=>setMesaiSaat(e.target.value)}
+                    type="number" inputMode="numeric" placeholder="0"
+                    style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                      padding:"10px 36px 10px 12px", color:COLORS.text, fontSize:15, fontWeight:"bold", outline:"none",
+                      boxSizing:"border-box", fontFamily:"inherit" }}/>
+                  <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)",
+                    color:COLORS.muted, fontSize:11, fontWeight:"bold", pointerEvents:"none" }}>saat</span>
+                </div>
+                <div style={{ flex:1, position:"relative" }}>
+                  <input value={mesaiDak} onChange={e=>setMesaiDak(e.target.value)}
+                    type="number" inputMode="numeric" placeholder="0"
+                    style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                      padding:"10px 36px 10px 12px", color:COLORS.text, fontSize:15, fontWeight:"bold", outline:"none",
+                      boxSizing:"border-box", fontFamily:"inherit" }}/>
+                  <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)",
+                    color:COLORS.muted, fontSize:11, fontWeight:"bold", pointerEvents:"none" }}>dk</span>
+                </div>
+                <div style={{ position:"relative", width:70 }}>
+                  <input value={day} onChange={e=>setDay(e.target.value)}
+                    type="number" inputMode="numeric" placeholder="Gün" min="1" max="5"
+                    style={{ width:"100%", background:COLORS.bg, border:`1px solid ${mesaiDonem.sonrakiAy?"#F59E0B60":COLORS.green+"60"}`, borderRadius:9,
+                      padding:"10px 4px 10px 8px", color:mesaiDonem.sonrakiAy?COLORS.yellow:COLORS.green, fontSize:13, fontWeight:"bold", outline:"none",
+                      boxSizing:"border-box", fontFamily:"inherit" }}/>
+                  <span style={{ position:"absolute", right:4, top:"50%", transform:"translateY(-50%)",
+                    color:COLORS.muted, fontSize:9, pointerEvents:"none", lineHeight:1.2, textAlign:"center" }}>gün{"\n"}{MONTHS_TR[mesaiDonem.ay].slice(0,3)}</span>
+                </div>
+              </div>
+              {mesaiSonuc && (
+                <div style={{ background: mesai2x ? "#F59E0B15" : "#3B82F615", border:`1px solid ${mesai2x?"#F59E0B40":"#3B82F640"}`, borderRadius:10, padding:"10px 12px", marginBottom:4 }}>
+                  {mesai2x ? (
+                    <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+                      <span style={{ color:COLORS.muted, fontSize:11 }}>🎉 {mesaiSonuc.toplamSaat.toFixed(1)}s × {MESAI_BAYRAM}{PB} (Bayram)</span>
+                      <span style={{ color:"#F59E0B", fontSize:12, fontWeight:"bold" }}>{fmt(mesaiSonuc.ucret)}{PB}</span>
+                    </div>
+                  ) : mesaiSonuc.sabit ? (
+                    <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+                      <span style={{ color:COLORS.muted, fontSize:11 }}>⚡ {mesaiSonuc.toplamSaat.toFixed(1)}s × {MESAI1}{PB} (Sabit)</span>
+                      <span style={{ color:COLORS.blue, fontSize:12, fontWeight:"bold" }}>{fmt(mesaiSonuc.ucret)}{PB}</span>
+                    </div>
+                  ) : (
+                    <>
+                      <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+                        <span style={{ color:COLORS.muted, fontSize:11 }}>İlk 5 saat (×{MESAI1}{PB})</span>
+                        <span style={{ color:COLORS.blue, fontSize:12, fontWeight:"bold" }}>{fmt(mesaiSonuc.ilk5 * MESAI1)}{PB}</span>
+                      </div>
+                      {mesaiSonuc.kalan > 0 && (
+                        <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+                          <span style={{ color:COLORS.muted, fontSize:11 }}>Kalan {mesaiSonuc.kalan.toFixed(1)}s (×{MESAI2}{PB})</span>
+                          <span style={{ color:COLORS.blue, fontSize:12, fontWeight:"bold" }}>{fmt(mesaiSonuc.kalan * MESAI2)}{PB}</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  <div style={{ borderTop:`1px solid ${mesai2x?"#F59E0B40":"#3B82F640"}`, paddingTop:6, display:"flex", justifyContent:"space-between" }}>
+                    <span style={{ color:COLORS.text, fontSize:12, fontWeight:"bold" }}>Toplam Mesai Ücreti</span>
+                    <span style={{ color:mesai2x?"#F59E0B":COLORS.green, fontSize:14, fontWeight:"bold" }}>+{fmt(mesaiSonuc.ucret)}{PB}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Normal Tutar + Kalıcı */
+            <div style={{ display:"flex", gap:8, marginBottom:10 }}>
+              <div style={{ flex:1, position:"relative" }}>
+                <input value={amount} onChange={e=>setAmount(e.target.value)}
+                  type="number" inputMode="decimal"
+                  style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                    padding:"10px 36px 10px 12px", color:COLORS.text, fontSize:15, fontWeight:"bold", outline:"none",
+                    boxSizing:"border-box", fontFamily:"inherit" }}/>
+                <span style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)",
+                  color:COLORS.accent, fontSize:18, fontWeight:"bold", pointerEvents:"none" }}>{PB}</span>
+              </div>
+              {(type==="gider" || type==="gelir") && (
+                <button onClick={()=>setKalici(!kalici)} style={{
+                  flex:1, padding:"10px 8px", borderRadius:9, cursor:"pointer", fontFamily:"inherit",
+                  border:`2px solid ${kalici?"#A855F7":COLORS.cardBorder}`,
+                  background: kalici ? "#A855F720" : COLORS.bg,
+                  color: kalici ? "#A855F7" : COLORS.muted,
+                  fontSize:11, fontWeight:"bold", display:"flex", alignItems:"center", justifyContent:"center", gap:5 }}>
+                  {kalici ? "📌 Kalıcı ✓" : "📌 Kalıcı Yap"}
+                </button>
+              )}
+            </div>
+          )}
+          {kalici && catKey!=="pasif" && (
+            <div style={{ background:"#A855F715", border:"1px solid #A855F740", borderRadius:9, padding:"7px 10px", marginBottom:10, fontSize:11, color:"#A855F7" }}>
+              Bu {type==="gelir"?"gelir":"gider"} her ay otomatik eklenecek 📌
+            </div>
+          )}
+
+          {/* Gün + Not */}
+          <div style={{ display:"flex", gap:8, marginBottom:12 }}>
+            {!(type==="gelir" && catKey==="pasif") && (
+              <input value={day} onChange={e=>setDay(e.target.value)} placeholder="Gün" type="number" min="1" max="31"
+                style={{ width:70, background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                  padding:"9px 10px", color:COLORS.text, fontSize:13, outline:"none", fontFamily:"inherit" }}/>
+            )}
+            <input value={note} onChange={e=>setNote(e.target.value)} placeholder="Not (opsiyonel)"
+              style={{ flex:1, background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                padding:"9px 12px", color:COLORS.text, fontSize:13, outline:"none", fontFamily:"inherit" }}/>
+          </div>
+
+          <button onClick={addTx} style={{ width:"100%", padding:"11px",
+            background:`linear-gradient(135deg,${type==="gelir"?COLORS.green:"#EF4444"},${type==="gelir"?"#10B981":"#F87171"})`,
+            border:"none", borderRadius:10, color:"#fff", fontSize:13, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>
+            ✅ {type==="gelir"?"Gelir":"Gider"} Ekle
+          </button>
+        </div>
+      )}
+
+      {/* İşlem listesi */}
+      {monthTxs.length===0 && !showForm && (
+        <div style={{ textAlign:"center", color:COLORS.muted, padding:"30px 0", fontSize:13 }}>Bu ay henüz işlem yok</div>
+      )}
+      {[...monthTxs].sort((a,b)=>b.day-a.day).map(t=>{
+        const isDgider  = t.autoId && t.autoId.startsWith("dgider-");
+        const isPasif   = t.autoId && t.autoId.startsWith("pasif-");
+        const isMaas    = t.autoId && (t.autoId.startsWith("maas-") || t.autoId.startsWith("prim-"));
+        const srcId = isDgider ? t.autoId.split("-")[1] : isPasif ? t.autoId.split("-")[1] : null;
+        const handleDelete = () => {
+          if (isDgider && srcId) {
+            setDuzenliGiderler(p => p.filter(g => String(g.id) !== srcId));
+            setTxs(p => p.filter(x => !(x.autoId && x.autoId.startsWith(`dgider-${srcId}-`))));
+          } else if (isPasif && srcId) {
+            setPasifGelirler(p => p.filter(g => String(g.id) !== srcId));
+            setTxs(p => p.filter(x => !(x.autoId && x.autoId.startsWith(`pasif-${srcId}-`))));
+          } else {
+            setTxs(p => p.filter(x => x.id !== t.id));
+          }
+        };
+        return (
+        <div key={t.id} style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 0", borderBottom:`1px solid ${COLORS.cardBorder}` }}>
+          <div style={{ width:36, height:36, borderRadius:10, fontSize:18,
+            background:t.type==="gelir"?COLORS.greenSoft:"#EF444420",
+            border:`1px solid ${t.type==="gelir"?COLORS.green+"50":"#EF444450"}`,
+            display:"flex", alignItems:"center", justifyContent:"center" }}>{t.emoji}</div>
+          <div style={{ flex:1 }}>
+            <div style={{ color:COLORS.text, fontSize:13, fontWeight:"bold" }}>{t.catLabel}</div>
+            <div style={{ color:COLORS.muted, fontSize:10, marginTop:1 }}>
+              {MONTHS_TR[t.month]} {t.day}{t.note ? ` · ${t.note}` : ""}
+              {(isDgider||isPasif) && <span style={{ color:"#A855F7", marginLeft:4 }}>📌 kalıcı</span>}
+              {isMaas && <span style={{ color:COLORS.muted, marginLeft:4 }}>🔒 otomatik</span>}
+            </div>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+            <div style={{ color:t.type==="gelir"?COLORS.green:"#EF4444", fontWeight:"bold", fontSize:14 }}>
+              {t.type==="gelir"?"+":"-"}{fmt(t.amount)}₺
+            </div>
+            {!isMaas && <button onClick={handleDelete} style={{ background:"none", border:"none", color:COLORS.muted, cursor:"pointer", fontSize:16 }}>×</button>}
+            {isMaas  && <span style={{ fontSize:14, color:COLORS.cardBorder }}>🔒</span>}
+          </div>
+        </div>
+        );
+      })}
+
+      {/* Yıllık Özet */}
+      <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14, marginBottom:14, marginTop:14 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
+          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:13 }}>📊 {viewYear} Yıllık Özet</div>
+          <div style={{ display:"flex", gap:12 }}>
+            <div style={{ textAlign:"right" }}>
+              <div style={{ color:COLORS.green, fontSize:11, fontWeight:"bold" }}>+{fmt(yillikOzet.toplamGelir)}{PB}</div>
+              <div style={{ color:"#EF4444", fontSize:11, fontWeight:"bold" }}>-{fmt(yillikOzet.toplamGider)}{PB}</div>
+            </div>
+            <div style={{ textAlign:"right", borderLeft:`1px solid ${COLORS.cardBorder}`, paddingLeft:12 }}>
+              <div style={{ color:yillikOzet.net>=0?COLORS.green:"#EF4444", fontSize:13, fontWeight:"bold" }}>
+                {yillikOzet.net>=0?"+":""}{fmt(yillikOzet.net)}{PB}
+              </div>
+              <div style={{ color:COLORS.muted, fontSize:9 }}>net</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mini bar grafik */}
+        <div style={{ display:"flex", gap:3, alignItems:"flex-end", height:60 }}>
+          {yillikOzet.aylar.map((a, i) => (
+            <div key={i} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:2 }}>
+              <div style={{ width:"100%", display:"flex", flexDirection:"column", justifyContent:"flex-end", height:50, gap:1 }}>
+                <div style={{
+                  width:"100%", borderRadius:"3px 3px 0 0",
+                  height:`${Math.round((a.gelir/yillikOzet.maxVal)*50)}px`,
+                  background: i===viewMonth ? COLORS.green : COLORS.green+"60",
+                  minHeight: a.gelir>0?2:0
+                }}/>
+                <div style={{
+                  width:"100%", borderRadius:"3px 3px 0 0",
+                  height:`${Math.round((a.gider/yillikOzet.maxVal)*50)}px`,
+                  background: i===viewMonth ? "#EF4444" : "#EF444460",
+                  minHeight: a.gider>0?2:0
+                }}/>
+              </div>
+              <div style={{ color:i===viewMonth?COLORS.text:COLORS.muted, fontSize:8, fontWeight:i===viewMonth?"bold":"normal" }}>{a.ad}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Legend */}
+        <div style={{ display:"flex", gap:12, marginTop:8, justifyContent:"center" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:4 }}>
+            <div style={{ width:8, height:8, borderRadius:2, background:COLORS.green }}/>
+            <span style={{ color:COLORS.muted, fontSize:10 }}>Gelir</span>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:4 }}>
+            <div style={{ width:8, height:8, borderRadius:2, background:"#EF4444" }}/>
+            <span style={{ color:COLORS.muted, fontSize:10 }}>Gider</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+// ─── NOTES TAB ──────────────────────────────────────────────────
+const NOTE_COLORS = ["#FF6B35","#4ECDC4","#A855F7","#3B82F6","#F59E0B","#EC4899","#10B981","#F0EDE8"];
+
+function NotesTab({ notes, setNotes }) {
+  const [mod,       setMod]       = useState("notlar"); // "notlar" | "izleme"
+  const [editing, setEditing]     = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody]   = useState("");
+  const [editColor, setEditColor] = useState(NOTE_COLORS[0]);
+  const [search, setSearch]       = useState("");
+  const textareaRef               = useRef(null);
+
+  // İzleme listesi state
+  const [izlemeListesi, setIzlemeListesiRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_izleme"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const setIzlemeListesi = v => { const val = typeof v==="function"?v(izlemeListesi):v; localStorage.setItem("ga_izleme",JSON.stringify(val)); setIzlemeListesiRaw(val); };
+  const [izlemeTur,   setIzlemeTur]   = useState("film"); // film | dizi | oyun
+  const [izlemeYeni,  setIzlemeYeni]  = useState("");
+  const [izlemeNot,   setIzlemeNot]   = useState("");
+
+  const IZLEME_TURLERI = [
+    { key:"film",  label:"Film",  emoji:"🎬" },
+    { key:"dizi",  label:"Dizi",  emoji:"📺" },
+    { key:"oyun",  label:"Oyun",  emoji:"🎮" },
+  ];
+
+  const addIzleme = () => {
+    if (!izlemeYeni.trim()) return;
+    setIzlemeListesi(p=>[...p,{ id:Date.now(), tur:izlemeTur, ad:izlemeYeni.trim(), not:izlemeNot.trim(), tamamlandi:false, eklenme:Date.now() }]);
+    setIzlemeYeni(""); setIzlemeNot("");
+  };
+
+  const filtreliIzleme = izlemeListesi.filter(x=>x.tur===izlemeTur);
+  const bekleyenler    = filtreliIzleme.filter(x=>!x.tamamlandi);
+  const tamamlananlar  = filtreliIzleme.filter(x=>x.tamamlandi);
+
+  useEffect(() => { if (editing && textareaRef.current) textareaRef.current.focus(); }, [editing]);
+
+  const openNew = () => { setEditing("new"); setEditTitle(""); setEditBody(""); setEditColor(NOTE_COLORS[Math.floor(Math.random()*NOTE_COLORS.length)]); };
+  const openEdit = n => { setEditing(n.id); setEditTitle(n.title); setEditBody(n.body); setEditColor(n.color); };
+
+  const save = () => {
+    if (!editBody.trim() && !editTitle.trim()) { setEditing(null); return; }
+    if (editing === "new") {
+      setNotes(p => [{ id:Date.now(), title:editTitle.trim()||"Başlıksız", body:editBody, color:editColor, pinned:false, createdAt:Date.now() }, ...p]);
+    } else {
+      setNotes(p => p.map(n => n.id===editing ? {...n, title:editTitle.trim()||"Başlıksız", body:editBody, color:editColor} : n));
+    }
+    setEditing(null);
+  };
+
+  const deleteNote = id => { setNotes(p=>p.filter(n=>n.id!==id)); if(editing===id) setEditing(null); };
+  const togglePin  = id => setNotes(p=>p.map(n=>n.id===id?{...n,pinned:!n.pinned}:n));
+
+  const filtered = notes.filter(n =>
+    n.title.toLowerCase().includes(search.toLowerCase()) ||
+    n.body.toLowerCase().includes(search.toLowerCase())
+  );
+  const pinned   = filtered.filter(n=>n.pinned);
+  const unpinned = filtered.filter(n=>!n.pinned);
+
+  // Edit view
+  if (editing !== null) {
+    return (
+      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+        <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+          <button onClick={()=>setEditing(null)} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, padding:"7px 12px", color:COLORS.muted, cursor:"pointer", fontSize:13 }}>← Geri</button>
+          <button onClick={save} style={{ flex:1, background:`linear-gradient(135deg,${COLORS.accent},#FF8C5A)`, border:"none", borderRadius:10, padding:"8px", color:"#fff", fontWeight:"bold", cursor:"pointer", fontSize:13, fontFamily:"inherit" }}>💾 Kaydet</button>
+          {editing !== "new" && <button onClick={()=>deleteNote(editing)} style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10, padding:"7px 10px", color:"#EF4444", cursor:"pointer", fontSize:13 }}>🗑</button>}
+        </div>
+
+        {/* Color picker */}
+        <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+          {NOTE_COLORS.map(c=>(
+            <button key={c} onClick={()=>setEditColor(c)} style={{ width:24, height:24, borderRadius:"50%", background:c, cursor:"pointer", border:editColor===c?`3px solid ${COLORS.text}`:"2px solid transparent", outline:"none" }}/>
+          ))}
+        </div>
+
+        <input value={editTitle} onChange={e=>setEditTitle(e.target.value)} placeholder="Başlık..."
+          style={{ background:COLORS.card, border:`1px solid ${editColor}60`, borderRadius:12, padding:"12px 14px",
+            color:COLORS.text, fontSize:16, fontWeight:"bold", outline:"none", fontFamily:"inherit",
+            borderLeft:`4px solid ${editColor}` }}/>
+
+        <textarea ref={textareaRef} value={editBody} onChange={e=>setEditBody(e.target.value)} placeholder="Notunuzu yazın..."
+          style={{ background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:12, padding:"14px",
+            color:COLORS.text, fontSize:14, outline:"none", fontFamily:"inherit", lineHeight:1.7,
+            minHeight:260, resize:"none" }}/>
+
+        <div style={{ color:COLORS.muted, fontSize:11, textAlign:"right" }}>{editBody.length} karakter</div>
+      </div>
+    );
+  }
+
+  // List view
+  return (
+    <div>
+      {/* Mod Toggle */}
+      <div style={{ display:"flex", background:COLORS.bg, borderRadius:12, padding:3, marginBottom:14, border:`1px solid ${COLORS.cardBorder}` }}>
+        {[{key:"notlar",emoji:"📝",label:"Notlar"},{key:"izleme",emoji:"🎬",label:"İzleme"}].map(m=>(
+          <button key={m.key} onClick={()=>setMod(m.key)} style={{
+            flex:1, padding:"8px", borderRadius:10, border:"none", cursor:"pointer", fontFamily:"inherit",
+            background: mod===m.key ? `linear-gradient(135deg,${COLORS.accent},#FF8C5A)` : "transparent",
+            color: mod===m.key ? "#fff" : COLORS.muted, fontSize:12, fontWeight:"bold" }}>
+            {m.emoji} {m.label}
+          </button>
+        ))}
+      </div>
+
+      {/* İzleme Listesi */}
+      {mod==="izleme" && (
+        <div>
+          {/* Tür Toggle */}
+          <div style={{ display:"flex", gap:8, marginBottom:14 }}>
+            {IZLEME_TURLERI.map(t=>(
+              <button key={t.key} onClick={()=>setIzlemeTur(t.key)} style={{
+                flex:1, padding:"8px 6px", borderRadius:12, border:`2px solid ${izlemeTur===t.key?COLORS.purple:COLORS.cardBorder}`,
+                background: izlemeTur===t.key?"#A855F720":"transparent",
+                color: izlemeTur===t.key?COLORS.purple:COLORS.muted,
+                cursor:"pointer", fontFamily:"inherit", fontSize:12, fontWeight:"bold" }}>
+                {t.emoji} {t.label}
+                <span style={{ display:"block", fontSize:9, marginTop:1, color:COLORS.muted }}>
+                  {izlemeListesi.filter(x=>x.tur===t.key&&!x.tamamlandi).length} bekliyor
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Yeni ekle */}
+          <div style={{ background:COLORS.card, borderRadius:14, border:`1px solid ${COLORS.cardBorder}`, padding:12, marginBottom:14 }}>
+            <input value={izlemeYeni} onChange={e=>setIzlemeYeni(e.target.value)}
+              onKeyDown={e=>e.key==="Enter"&&addIzleme()}
+              placeholder={`${IZLEME_TURLERI.find(t=>t.key===izlemeTur)?.emoji} ${izlemeTur} adı...`}
+              style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                padding:"9px 12px", color:COLORS.text, fontSize:13, outline:"none", boxSizing:"border-box", fontFamily:"inherit", marginBottom:8 }}/>
+            <div style={{ display:"flex", gap:8 }}>
+              <input value={izlemeNot} onChange={e=>setIzlemeNot(e.target.value)}
+                placeholder="Not (opsiyonel)"
+                style={{ flex:1, background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:9,
+                  padding:"9px 12px", color:COLORS.text, fontSize:12, outline:"none", fontFamily:"inherit" }}/>
+              <button onClick={addIzleme} style={{ background:`linear-gradient(135deg,${COLORS.purple},#9333EA)`,
+                border:"none", borderRadius:9, padding:"9px 16px", color:"#fff", fontWeight:"bold", cursor:"pointer", fontSize:16 }}>+</button>
+            </div>
+          </div>
+
+          {/* Bekleyenler */}
+          {bekleyenler.length>0 && (
+            <div style={{ marginBottom:14 }}>
+              <div style={{ color:COLORS.muted, fontSize:10, letterSpacing:2, textTransform:"uppercase", marginBottom:8 }}>
+                ⏳ Bekliyor ({bekleyenler.length})
+              </div>
+              {bekleyenler.map(item=>(
+                <div key={item.id} style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 12px", marginBottom:6,
+                  background:COLORS.card, borderRadius:12, border:`1px solid ${COLORS.cardBorder}` }}>
+                  <button onClick={()=>setIzlemeListesi(p=>p.map(x=>x.id===item.id?{...x,tamamlandi:true}:x))}
+                    style={{ width:22, height:22, borderRadius:"50%", border:`2px solid ${COLORS.purple}`,
+                      background:"transparent", cursor:"pointer", flexShrink:0 }}/>
+                  <div style={{ flex:1 }}>
+                    <div style={{ color:COLORS.text, fontSize:13, fontWeight:"bold" }}>{item.ad}</div>
+                    {item.not && <div style={{ color:COLORS.muted, fontSize:11, marginTop:1 }}>{item.not}</div>}
+                  </div>
+                  <button onClick={()=>setIzlemeListesi(p=>p.filter(x=>x.id!==item.id))}
+                    style={{ background:"none", border:"none", color:COLORS.muted, cursor:"pointer", fontSize:16 }}>×</button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tamamlananlar */}
+          {tamamlananlar.length>0 && (
+            <div>
+              <div style={{ color:COLORS.muted, fontSize:10, letterSpacing:2, textTransform:"uppercase", marginBottom:8 }}>
+                ✅ Tamamlandı ({tamamlananlar.length})
+              </div>
+              {tamamlananlar.map(item=>(
+                <div key={item.id} style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 12px", marginBottom:6,
+                  background:COLORS.card, borderRadius:12, border:`1px solid ${COLORS.cardBorder}`, opacity:0.6 }}>
+                  <button onClick={()=>setIzlemeListesi(p=>p.map(x=>x.id===item.id?{...x,tamamlandi:false}:x))}
+                    style={{ width:22, height:22, borderRadius:"50%", border:`2px solid ${COLORS.green}`,
+                      background:COLORS.green, cursor:"pointer", flexShrink:0, fontSize:12, color:"#fff", display:"flex", alignItems:"center", justifyContent:"center" }}>✓</button>
+                  <div style={{ flex:1 }}>
+                    <div style={{ color:COLORS.muted, fontSize:13, textDecoration:"line-through" }}>{item.ad}</div>
+                    {item.not && <div style={{ color:COLORS.muted, fontSize:11, marginTop:1 }}>{item.not}</div>}
+                  </div>
+                  <button onClick={()=>setIzlemeListesi(p=>p.filter(x=>x.id!==item.id))}
+                    style={{ background:"none", border:"none", color:COLORS.muted, cursor:"pointer", fontSize:16 }}>×</button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {filtreliIzleme.length===0 && (
+            <div style={{ textAlign:"center", color:COLORS.muted, padding:"40px 0" }}>
+              <div style={{ fontSize:36, marginBottom:8 }}>{IZLEME_TURLERI.find(t=>t.key===izlemeTur)?.emoji}</div>
+              <div style={{ fontSize:13 }}>Liste boş</div>
+              <div style={{ fontSize:11, marginTop:4 }}>Yukarıdan ekleyebilirsin</div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Notlar */}
+      {mod==="notlar" && (<>
+      <div style={{ display:"flex", gap:8, marginBottom:14 }}>
+        <div style={{ flex:1, position:"relative" }}>
+          <span style={{ position:"absolute", left:11, top:"50%", transform:"translateY(-50%)", color:COLORS.muted, fontSize:14 }}>🔍</span>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Notlarda ara..."
+            style={{ width:"100%", background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`, borderRadius:12,
+              padding:"10px 12px 10px 32px", color:COLORS.text, fontSize:13, outline:"none",
+              boxSizing:"border-box", fontFamily:"inherit" }}/>
+        </div>
+        <button onClick={openNew} style={{ background:`linear-gradient(135deg,${COLORS.accent},#FF8C5A)`, border:"none",
+          borderRadius:12, padding:"0 16px", color:"#fff", fontWeight:"bold", cursor:"pointer", fontSize:18, flexShrink:0 }}>+</button>
+      </div>
+
+      {notes.length===0 && (
+        <div style={{ textAlign:"center", color:COLORS.muted, padding:"60px 0" }}>
+          <div style={{ fontSize:40, marginBottom:12 }}>📝</div>
+          <div style={{ fontSize:14 }}>Henüz not yok</div>
+          <div style={{ fontSize:12, marginTop:4 }}>+ butonuna basarak başla</div>
+        </div>
+      )}
+
+      {pinned.length>0 && (
+        <>
+          <div style={{ color:COLORS.muted, fontSize:11, letterSpacing:2, textTransform:"uppercase", marginBottom:8 }}>📌 Sabitlenmiş</div>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:14 }}>
+            {pinned.map(n=><NoteCard key={n.id} note={n} onEdit={openEdit} onPin={togglePin} onDelete={deleteNote}/>)}
+          </div>
+        </>
+      )}
+
+      {unpinned.length>0 && (
+        <>
+          {pinned.length>0 && <div style={{ color:COLORS.muted, fontSize:11, letterSpacing:2, textTransform:"uppercase", marginBottom:8 }}>Diğer Notlar</div>}
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+            {unpinned.map(n=><NoteCard key={n.id} note={n} onEdit={openEdit} onPin={togglePin} onDelete={deleteNote}/>)}
+          </div>
+        </>
+      )}
+
+      {filtered.length===0 && notes.length>0 && (
+        <div style={{ textAlign:"center", color:COLORS.muted, padding:"40px 0", fontSize:13 }}>Arama sonucu bulunamadı</div>
+      )}
+      </>)}
+    </div>
+  );
+}
+
+function NoteCard({ note, onEdit, onPin, onDelete }) {
+  const preview = note.body.slice(0, 80) + (note.body.length>80?"...":"");
+  return (
+    <div style={{ background:COLORS.card, borderRadius:14, border:`1px solid ${COLORS.cardBorder}`,
+      borderTop:`3px solid ${note.color}`, padding:12, cursor:"pointer", position:"relative" }}
+      onClick={()=>onEdit(note)}>
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
+        <div style={{ color:note.color, fontSize:12, fontWeight:"bold", flex:1, paddingRight:4,
+          overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{note.title}</div>
+        <div style={{ display:"flex", gap:2 }}>
+          <button onClick={e=>{e.stopPropagation();onPin(note.id);}} style={{ background:"none",border:"none",
+            color:note.pinned?COLORS.yellow:COLORS.muted, cursor:"pointer", fontSize:11, padding:"1px 2px" }}>
+            {note.pinned?"📌":"⬜"}
+          </button>
+          <button onClick={e=>{e.stopPropagation();onDelete(note.id);}} style={{ background:"none",border:"none",
+            color:COLORS.muted, cursor:"pointer", fontSize:12, padding:"1px 2px" }}>×</button>
+        </div>
+      </div>
+      <div style={{ color:COLORS.muted, fontSize:11, lineHeight:1.5, whiteSpace:"pre-wrap" }}>{preview}</div>
+    </div>
+  );
+}
+
+function GorevAsistani() {
+  const today = new Date();
+  const [notes, setNotesRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_notes"); return s ? JSON.parse(s) : [
+      { id: 1, title: "Toplantı notları", body: "Pazartesi toplantısında konuşulacaklar:\n- Q2 hedefleri\n- Yeni özellik planlaması\n- Ekip güncellemeleri", color: "#A855F7", pinned: true, createdAt: Date.now() - 86400000 },
+      { id: 2, title: "Fikirler", body: "Yeni proje için düşünceler...\n- Kullanıcı deneyimini iyileştir\n- Mobil öncelikli tasarım", color: "#4ECDC4", pinned: false, createdAt: Date.now() - 3600000 },
+    ]; } catch { return []; }
+  });
+  const setNotes = v => { const val = typeof v==="function" ? v(notes) : v; localStorage.setItem("ga_notes", JSON.stringify(val)); setNotesRaw(val); };
+
+  const [tasks, setTasksRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_tasks"); return s ? JSON.parse(s) : initialTasks; } catch { return initialTasks; }
+  });
+  const setTasks = v => { const val = typeof v==="function" ? v(tasks) : v; localStorage.setItem("ga_tasks", JSON.stringify(val)); setTasksRaw(val); };
+
+  const [reminders, setRemindersRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_reminders"); return s ? JSON.parse(s) : initialReminders; } catch { return initialReminders; }
+  });
+  const setReminders = v => { const val = typeof v==="function" ? v(reminders) : v; localStorage.setItem("ga_reminders", JSON.stringify(val)); setRemindersRaw(val); };
+  const [newTask, setNewTask]         = useState("");
+  const [newPriority, setNewPriority] = useState("orta");
+  const [newType, setNewType]         = useState("gunluk");
+  const [activeTab, setActiveTab]     = useState("tasks");
+  const [filter, setFilter]           = useState("tümü");
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [toasts, setToasts]           = useState([]);
+  const [dismissed, setDismissed]     = useState(new Set());
+  const [showSettings, setShowSettings] = useState(false);
+
+  // Ayarlar
+  const [ayarlar, setAyarlarRaw] = useState(() => {
+    try { const s = localStorage.getItem("ga_ayarlar"); return s ? JSON.parse(s) : {
+      appAdi: "Asistan Zi",
+      tema: "gece",
+      paraBirimi: "₺",
+      mesaiUcret1: 273,
+      mesaiUcret2: 328,
+      mesaiBayram: 436,
+      mesaiAktif: true,
+      maasUcret: 64748,
+      primUcret: 54578,
+    }; } catch { return { appAdi:"Asistan Zi", tema:"gece", paraBirimi:"₺", mesaiUcret1:273, mesaiUcret2:328, mesaiBayram:436, mesaiAktif:true, maasUcret:64748, primUcret:54578 }; }
+  });
+  const setAyarlar = v => { const val = typeof v==="function"?v(ayarlar):v; localStorage.setItem("ga_ayarlar",JSON.stringify(val)); setAyarlarRaw(val); };
+
+  // Tema renkleri
+  const TEMA = ayarlar.tema === "gunduz" ? {
+    ...COLORS,
+    bg:"#F5F5F0", card:"#FFFFFF", cardBorder:"#E0DDD8",
+    text:"#1A1A22", muted:"#7A7A8C",
+  } : COLORS;
+
+  useEffect(()=>{ /* chatEnd scroll removed */ }, []);
+
+  // Check for reminders due tomorrow
+  useEffect(() => {
+    const tomorrow = today.getDate() + 1;
+    const due = reminders.filter(r => r.day === tomorrow && !dismissed.has(r.id));
+    if (due.length > 0) {
+      // Stagger the toasts appearing
+      due.forEach((r, i) => {
+        setTimeout(() => {
+          setToasts(p => p.find(t=>t.id===r.id) ? p : [...p, r]);
+        }, i * 600);
+      });
+    }
+  }, [reminders]);
+
+  const dismissToast = useCallback((id) => {
+    setToasts(p => p.filter(t => t.id !== id));
+    setDismissed(p => new Set([...p, id]));
+  }, []);
+
+  // Auto-reset logic: reset done status based on task type
+  useEffect(() => {
+    const now = new Date();
+    const todayStr  = now.toDateString();
+    const weekStart = (() => { const d = new Date(now); d.setDate(d.getDate() - (d.getDay()===0?6:d.getDay()-1)); return d.toDateString(); })();
+    const monthStr  = `${now.getFullYear()}-${now.getMonth()}`;
+    const last = JSON.parse(localStorage.getItem("ga_last_reset") || "{}");
+
+    let needsSave = false;
+    const updated = tasks.map(t => {
+      if (!t.done) return t;
+      if (t.type==="gunluk"   && last.day   !== todayStr)  { needsSave=true; return {...t, done:false}; }
+      if (t.type==="haftalik" && last.week  !== weekStart) { needsSave=true; return {...t, done:false}; }
+      if (t.type==="aylik"    && last.month !== monthStr)  { needsSave=true; return {...t, done:false}; }
+      return t;
+    });
+
+    if (needsSave) {
+      setTasks(updated);
+      localStorage.setItem("ga_last_reset", JSON.stringify({ day:todayStr, week:weekStart, month:monthStr }));
+    } else if (!last.day) {
+      localStorage.setItem("ga_last_reset", JSON.stringify({ day:todayStr, week:weekStart, month:monthStr }));
+    }
+  }, []);
+
+  const todayReminders = reminders.filter(r => r.day === today.getDate());
+  const completedCount = tasks.filter(t => t.done).length;
+  const progress       = tasks.length ? Math.round(completedCount/tasks.length*100) : 0;
+
+  const addTask = () => {
+    if (!newTask.trim()) return;
+    setTasks(p=>[...p,{ id:Date.now(), text:newTask.trim(), priority:newPriority, type:newType, done:false, createdAt:Date.now() }]);
+    setNewTask("");
+    setShowAddTask(false);
+  };
+
+  const priorityOrder = { yüksek: 0, orta: 1, düşük: 2 };
+  const filteredTasks = tasks
+    .filter(t => filter==="tamamlanan" ? t.done : filter==="bekleyen" ? !t.done : true)
+    .sort((a, b) => {
+      if (a.done !== b.done) return a.done ? 1 : -1;
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    });
+
+  // Test: show all reminders as "tomorrow" notifications
+  const testNotifications = () => {
+    setToasts([]);
+    setDismissed(new Set());
+    reminders.forEach((r, i) => {
+      setTimeout(() => setToasts(p => [...p, r]), i * 500);
+    });
+  };
+
+  return (
+    <div style={{ minHeight:"100vh", background:COLORS.bg, display:"flex", justifyContent:"center", fontFamily:"'Poppins', 'Segoe UI', sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');`}</style>
+      <NotificationToast notifications={toasts} onDismiss={dismissToast}/>
+      <div style={{ width:"100%", maxWidth:390, minHeight:"100vh", display:"flex", flexDirection:"column" }}>
+
+        {/* Header */}
+        <div style={{ padding:"18px 18px 14px", background:`linear-gradient(135deg,${COLORS.card},#12121A)`, borderBottom:`1px solid ${COLORS.cardBorder}` }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
+            <div>
+              <div style={{ fontSize:9, color:COLORS.muted, letterSpacing:4, textTransform:"uppercase", marginBottom:2 }}>planlama uygulaması</div>
+              <div style={{ fontSize:22, color:COLORS.text, fontWeight:800, letterSpacing:1, fontFamily:"'Poppins',sans-serif" }}>Asistan Zi</div>
+            </div>
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
+              <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+                <button onClick={testNotifications} title="Bildirimleri test et" style={{
+                  background:COLORS.blueSoft, border:`1px solid ${COLORS.blue}40`,
+                  borderRadius:10, padding:"4px 8px", fontSize:11, color:COLORS.blue,
+                  cursor:"pointer", fontFamily:"inherit",
+                }}>🔔 Test</button>
+                <button onClick={()=>setShowSettings(true)} style={{
+                  background:COLORS.card, border:`1px solid ${COLORS.cardBorder}`,
+                  borderRadius:10, padding:"4px 9px", fontSize:14, cursor:"pointer",
+                }}>⚙️</button>
+                <div style={{ background:COLORS.accentSoft, border:`1px solid ${COLORS.accent}40`, borderRadius:10, padding:"4px 10px", fontSize:12, color:COLORS.accent, fontWeight:"bold" }}>%{progress}</div>
+              </div>
+              {todayReminders.length>0 && (
+                <div onClick={()=>setActiveTab("calendar")} style={{ background:COLORS.blueSoft, border:`1px solid ${COLORS.blue}40`, borderRadius:10, padding:"4px 10px", fontSize:10, color:COLORS.blue, cursor:"pointer" }}>
+                  🔔 {todayReminders.map(r=>r.emoji).join(" ")}
+                </div>
+              )}
+            </div>
+          </div>
+          <div style={{ marginTop:12, height:3, background:COLORS.cardBorder, borderRadius:2 }}>
+            <div style={{ height:"100%", borderRadius:2, background:`linear-gradient(90deg,${COLORS.accent},${COLORS.green})`, width:`${progress}%`, transition:"width 0.5s ease" }}/>
+          </div>
+          <div style={{ display:"flex", justifyContent:"space-between", marginTop:5 }}>
+            <span style={{ fontSize:10, color:COLORS.muted }}>{completedCount} tamamlandı</span>
+            <span style={{ fontSize:10, color:COLORS.muted }}>{tasks.length-completedCount} bekliyor</span>
+          </div>
+        </div>
+
+        {/* Ayarlar Paneli */}
+        {showSettings && (
+          <div style={{ position:"fixed", inset:0, background:"#00000080", zIndex:100, display:"flex", alignItems:"flex-end", justifyContent:"center" }}
+            onClick={()=>setShowSettings(false)}>
+            <div style={{ width:"100%", maxWidth:390, background:COLORS.card, borderRadius:"20px 20px 0 0",
+              border:`1px solid ${COLORS.cardBorder}`, padding:"20px 18px 32px", maxHeight:"80vh", overflowY:"auto" }}
+              onClick={e=>e.stopPropagation()}>
+
+              {/* Başlık */}
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
+                <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:16 }}>⚙️ Ayarlar</div>
+                <button onClick={()=>setShowSettings(false)} style={{ background:"none", border:"none", color:COLORS.muted, fontSize:20, cursor:"pointer" }}>×</button>
+              </div>
+
+              {/* Tema */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ color:COLORS.muted, fontSize:11, marginBottom:6, textTransform:"uppercase", letterSpacing:1 }}>Tema</div>
+                <div style={{ display:"flex", gap:8 }}>
+                  {[{key:"gece",emoji:"🌙",label:"Gece"},{key:"gunduz",emoji:"☀️",label:"Gündüz"}].map(t=>(
+                    <button key={t.key} onClick={()=>setAyarlar(a=>({...a,tema:t.key}))} style={{
+                      flex:1, padding:"10px", borderRadius:10, cursor:"pointer", fontFamily:"inherit",
+                      border:`2px solid ${ayarlar.tema===t.key?COLORS.accent:COLORS.cardBorder}`,
+                      background: ayarlar.tema===t.key ? COLORS.accentSoft : COLORS.bg,
+                      color: ayarlar.tema===t.key ? COLORS.accent : COLORS.muted,
+                      fontSize:13, fontWeight:"bold" }}>
+                      {t.emoji} {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Para Birimi */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ color:COLORS.muted, fontSize:11, marginBottom:6, textTransform:"uppercase", letterSpacing:1 }}>Para Birimi</div>
+                <div style={{ display:"flex", gap:8 }}>
+                  {["₺","$","€"].map(p=>(
+                    <button key={p} onClick={()=>setAyarlar(a=>({...a,paraBirimi:p}))} style={{
+                      flex:1, padding:"10px", borderRadius:10, cursor:"pointer", fontFamily:"inherit",
+                      border:`2px solid ${ayarlar.paraBirimi===p?COLORS.green:COLORS.cardBorder}`,
+                      background: ayarlar.paraBirimi===p ? COLORS.greenSoft : COLORS.bg,
+                      color: ayarlar.paraBirimi===p ? COLORS.green : COLORS.muted,
+                      fontSize:16, fontWeight:"bold" }}>
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Maaş & Prim */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ color:COLORS.muted, fontSize:11, marginBottom:6, textTransform:"uppercase", letterSpacing:1 }}>Maaş & Prim</div>
+                <div style={{ display:"flex", gap:8 }}>
+                  <div style={{ flex:1 }}>
+                    <div style={{ color:COLORS.muted, fontSize:10, marginBottom:4 }}>💼 Aylık Maaş</div>
+                    <div style={{ position:"relative" }}>
+                      <input type="number" value={ayarlar.maasUcret||64748}
+                        onChange={e=>setAyarlar(a=>({...a,maasUcret:parseFloat(e.target.value)||0}))}
+                        style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10,
+                          padding:"9px 28px 9px 10px", color:COLORS.text, fontSize:13, fontWeight:"bold",
+                          outline:"none", boxSizing:"border-box", fontFamily:"inherit" }}/>
+                      <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", color:COLORS.green, fontSize:13, fontWeight:"bold" }}>{ayarlar.paraBirimi}</span>
+                    </div>
+                  </div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ color:COLORS.muted, fontSize:10, marginBottom:4 }}>🏆 Çeyreklik Prim</div>
+                    <div style={{ position:"relative" }}>
+                      <input type="number" value={ayarlar.primUcret||54578}
+                        onChange={e=>setAyarlar(a=>({...a,primUcret:parseFloat(e.target.value)||0}))}
+                        style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10,
+                          padding:"9px 28px 9px 10px", color:COLORS.text, fontSize:13, fontWeight:"bold",
+                          outline:"none", boxSizing:"border-box", fontFamily:"inherit" }}/>
+                      <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", color:COLORS.green, fontSize:13, fontWeight:"bold" }}>{ayarlar.paraBirimi}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mesai Ücretleri */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+                  <div style={{ color:COLORS.muted, fontSize:11, textTransform:"uppercase", letterSpacing:1 }}>Mesai Ücreti</div>
+                  <button onClick={()=>setAyarlar(a=>({...a,mesaiAktif:!a.mesaiAktif}))} style={{
+                    padding:"4px 14px", borderRadius:20, cursor:"pointer", fontFamily:"inherit", fontSize:11, fontWeight:"bold",
+                    border:`2px solid ${ayarlar.mesaiAktif!==false?COLORS.green:COLORS.cardBorder}`,
+                    background: ayarlar.mesaiAktif!==false ? COLORS.greenSoft : "transparent",
+                    color: ayarlar.mesaiAktif!==false ? COLORS.green : COLORS.muted,
+                  }}>{ayarlar.mesaiAktif!==false ? "✅ Kademeli" : "⚡ Sabit"}</button>
+                </div>
+                {ayarlar.mesaiAktif!==false ? (
+                  <div style={{ display:"flex", gap:8 }}>
+                    <div style={{ flex:1 }}>
+                      <div style={{ color:COLORS.muted, fontSize:10, marginBottom:4 }}>İlk 5 saat</div>
+                      <div style={{ position:"relative" }}>
+                        <input type="number" value={ayarlar.mesaiUcret1}
+                          onChange={e=>setAyarlar(a=>({...a,mesaiUcret1:parseFloat(e.target.value)||0}))}
+                          style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10,
+                            padding:"9px 28px 9px 10px", color:COLORS.text, fontSize:14, fontWeight:"bold",
+                            outline:"none", boxSizing:"border-box", fontFamily:"inherit" }}/>
+                        <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", color:COLORS.accent, fontSize:13, fontWeight:"bold" }}>{ayarlar.paraBirimi}</span>
+                      </div>
+                      <div style={{ color:COLORS.muted, fontSize:10, marginTop:4, textAlign:"center" }}>{ayarlar.mesaiUcret1||273}{ayarlar.paraBirimi}/saat</div>
+                    </div>
+                    <div style={{ flex:1 }}>
+                      <div style={{ color:COLORS.muted, fontSize:10, marginBottom:4 }}>5 saat sonrası</div>
+                      <div style={{ position:"relative" }}>
+                        <input type="number" value={ayarlar.mesaiUcret2}
+                          onChange={e=>setAyarlar(a=>({...a,mesaiUcret2:parseFloat(e.target.value)||0}))}
+                          style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10,
+                            padding:"9px 28px 9px 10px", color:COLORS.text, fontSize:14, fontWeight:"bold",
+                            outline:"none", boxSizing:"border-box", fontFamily:"inherit" }}/>
+                        <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", color:COLORS.accent, fontSize:13, fontWeight:"bold" }}>{ayarlar.paraBirimi}</span>
+                      </div>
+                      <div style={{ color:COLORS.muted, fontSize:10, marginTop:4, textAlign:"center" }}>{ayarlar.mesaiUcret2||328}{ayarlar.paraBirimi}/saat</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ color:COLORS.muted, fontSize:10, marginBottom:4 }}>Saatlik sabit ücret</div>
+                    <div style={{ position:"relative" }}>
+                      <input type="number" value={ayarlar.mesaiUcret1}
+                        onChange={e=>setAyarlar(a=>({...a,mesaiUcret1:parseFloat(e.target.value)||0}))}
+                        style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10,
+                          padding:"9px 28px 9px 10px", color:COLORS.text, fontSize:14, fontWeight:"bold",
+                          outline:"none", boxSizing:"border-box", fontFamily:"inherit" }}/>
+                      <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", color:COLORS.accent, fontSize:13, fontWeight:"bold" }}>{ayarlar.paraBirimi}</span>
+                    </div>
+                    <div style={{ color:COLORS.muted, fontSize:10, marginTop:4, textAlign:"center" }}>Tüm saatler → {ayarlar.mesaiUcret1||273}{ayarlar.paraBirimi}/saat</div>
+                  </div>
+                )}
+                {/* Bayram ücreti - her iki modda da göster */}
+                <div style={{ marginTop:10 }}>
+                  <div style={{ color:COLORS.muted, fontSize:10, marginBottom:4 }}>🎉 Bayram saatlik ücret</div>
+                  <div style={{ position:"relative" }}>
+                    <input type="number" value={ayarlar.mesaiBayram||436}
+                      onChange={e=>setAyarlar(a=>({...a,mesaiBayram:parseFloat(e.target.value)||0}))}
+                      style={{ width:"100%", background:COLORS.bg, border:`1px solid #F59E0B60`, borderRadius:10,
+                        padding:"9px 28px 9px 10px", color:"#F59E0B", fontSize:14, fontWeight:"bold",
+                        outline:"none", boxSizing:"border-box", fontFamily:"inherit" }}/>
+                    <span style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", color:"#F59E0B", fontSize:13, fontWeight:"bold" }}>{ayarlar.paraBirimi}</span>
+                  </div>
+                  <div style={{ color:COLORS.muted, fontSize:10, marginTop:4, textAlign:"center" }}>Tüm bayram saatleri → {ayarlar.mesaiBayram||436}{ayarlar.paraBirimi}/saat</div>
+                </div>
+              </div>
+
+              <button onClick={()=>setShowSettings(false)} style={{ width:"100%", padding:"12px",
+                background:`linear-gradient(135deg,${COLORS.accent},#FF8C5A)`,
+                border:"none", borderRadius:12, color:"#fff", fontSize:14, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>
+                ✅ Kaydet & Kapat
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Tabs */}
+        <div style={{ display:"flex", background:COLORS.card, borderBottom:`1px solid ${COLORS.cardBorder}`, overflowX:"auto" }}>
+          {[["tasks","📋"],["calendar","📅"],["notes","📝"],["finance","💰"]].map(([tab,label])=>(
+            <button key={tab} onClick={()=>setActiveTab(tab)} style={{
+              flex:"1 0 25%", minWidth:0, padding:"11px 4px", background:"none", border:"none",
+              color:activeTab===tab?COLORS.accent:COLORS.muted,
+              fontSize:20, cursor:"pointer",
+              borderBottom:activeTab===tab?`2px solid ${COLORS.accent}`:"2px solid transparent",
+            }}>{label}</button>
+          ))}
+        </div>
+
+        {/* Content */}
+        <div style={{ flex:1, overflowY:"auto", padding:16 }}>
+
+          {activeTab==="tasks" && (
+            <>
+              <div style={{ display:"flex", gap:8, marginBottom:14 }}>
+                {[["tümü","Tümü"],["bekleyen","Bekleyen"],["tamamlanan","Tamamlanan"]].map(([f,l])=>(
+                  <button key={f} onClick={()=>setFilter(f)} style={{ padding:"6px 12px", borderRadius:20,
+                    border:`1px solid ${filter===f?COLORS.green:COLORS.cardBorder}`,
+                    background:filter===f?COLORS.greenSoft:"transparent",
+                    color:filter===f?COLORS.green:COLORS.muted,
+                    fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>{l}</button>
+                ))}
+              </div>
+
+              <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:14 }}>
+                {filteredTasks.length===0 && <div style={{ textAlign:"center", color:COLORS.muted, padding:"40px 0", fontSize:14 }}>Görev bulunamadı 🎉</div>}
+                {filteredTasks.map(task=>(
+                  <div key={task.id} style={{ background:COLORS.card,
+                    border:`1px solid ${task.done?COLORS.cardBorder:priorities[task.priority].color+"40"}`,
+                    borderRadius:14, padding:14, display:"flex", alignItems:"flex-start", gap:12,
+                    opacity:task.done?0.6:1 }}>
+                    <button onClick={()=>setTasks(p=>p.map(t=>t.id===task.id?{...t,done:!t.done}:t))}
+                      style={{ width:22,height:22,borderRadius:"50%",flexShrink:0,
+                        border:`2px solid ${task.done?COLORS.green:priorities[task.priority].color}`,
+                        background:task.done?COLORS.green:"transparent",
+                        cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",marginTop:1 }}>
+                      {task.done&&<span style={{ color:"#fff",fontSize:12 }}>✓</span>}
+                    </button>
+                    <div style={{ flex:1 }}>
+                      <div style={{ color:COLORS.text, fontSize:14, textDecoration:task.done?"line-through":"none", marginBottom:6 }}>{task.text}</div>
+                      <div style={{ display:"flex", gap:6 }}>
+                        <Badge color={priorities[task.priority].color} bg={priorities[task.priority].bg}>{priorities[task.priority].label}</Badge>
+                        <Badge color={taskTypes[task.type]?.color||COLORS.muted} bg={taskTypes[task.type]?.bg||"transparent"}>{taskTypes[task.type]?.emoji} {taskTypes[task.type]?.label||task.type}</Badge>
+                      </div>
+                    </div>
+                    <button onClick={()=>setTasks(p=>p.filter(t=>t.id!==task.id))} style={{ background:"none",border:"none",color:COLORS.muted,cursor:"pointer",fontSize:18,padding:0 }}>×</button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Add button or form — below the list */}
+              {!showAddTask ? (
+                <button onClick={()=>setShowAddTask(true)} style={{
+                  width:"100%", padding:"12px",
+                  background:COLORS.card, border:`2px dashed ${COLORS.accent}60`,
+                  borderRadius:14, color:COLORS.accent, fontSize:14, fontWeight:"bold",
+                  cursor:"pointer", fontFamily:"inherit", display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                }}>+ Yeni Görev Ekle</button>
+              ) : (
+                <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.accent}40`, padding:14 }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                    <span style={{ color:COLORS.accent, fontWeight:"bold", fontSize:13 }}>Yeni Görev</span>
+                    <button onClick={()=>{setShowAddTask(false);setNewTask("");}} style={{ background:"none",border:"none",color:COLORS.muted,cursor:"pointer",fontSize:18 }}>×</button>
+                  </div>
+                  <input value={newTask} onChange={e=>setNewTask(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addTask()}
+                    placeholder="Görev adı..." autoFocus
+                    style={{ width:"100%", background:COLORS.bg, border:`1px solid ${COLORS.cardBorder}`, borderRadius:10,
+                      padding:"10px 12px", color:COLORS.text, fontSize:14, outline:"none", boxSizing:"border-box",
+                      marginBottom:10, fontFamily:"inherit" }}/>
+                  <div style={{ display:"flex", gap:8, marginBottom:10 }}>
+                    {Object.entries(priorities).map(([k,v])=>(
+                      <button key={k} onClick={()=>setNewPriority(k)} style={{ flex:1, padding:"6px 4px", borderRadius:8,
+                        border:`1px solid ${newPriority===k?v.color:COLORS.cardBorder}`,
+                        background:newPriority===k?v.bg:"transparent", color:newPriority===k?v.color:COLORS.muted,
+                        fontSize:11, cursor:"pointer", fontFamily:"inherit" }}>{v.label}</button>
+                    ))}
+                  </div>
+                  <div style={{ display:"flex", gap:6, marginBottom:10, flexWrap:"wrap" }}>
+                    {Object.entries(taskTypes).map(([k,v])=>(
+                      <button key={k} onClick={()=>setNewType(k)} style={{ padding:"5px 10px", borderRadius:20,
+                        border:`1px solid ${newType===k?v.color:COLORS.cardBorder}`,
+                        background:newType===k?v.bg:"transparent",
+                        color:newType===k?v.color:COLORS.muted,
+                        fontSize:11, cursor:"pointer", fontFamily:"inherit" }}>{v.emoji} {v.label}</button>
+                    ))}
+                  </div>
+                  <button onClick={addTask} style={{ width:"100%", padding:12,
+                    background:`linear-gradient(135deg,${COLORS.accent},#FF8C5A)`,
+                    border:"none", borderRadius:12, color:"#fff", fontSize:14, fontWeight:"bold",
+                    cursor:"pointer", fontFamily:"inherit" }}>✅ Ekle</button>
+                </div>
+              )}
+            </>
+          )}
+
+          {activeTab==="calendar" && <CalendarTab reminders={reminders} setReminders={setReminders}/>}
+
+          {activeTab==="finance" && <FinanceTab ayarlar={ayarlar}/>}
+          {activeTab==="notes" && <NotesTab notes={notes} setNotes={setNotes}/>}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<GorevAsistani/>);
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+const CACHE = 'asistan-zi-v2';
+self.addEventListener('install', e => {
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(clients.claim());
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+});
+`;
+      const blob = new Blob([swCode], {type: 'application/javascript'});
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).then(r => console.log('SW registered')).catch(e => console.log('SW error', e));
+    }
+  </script>
+</body>
+</html>
