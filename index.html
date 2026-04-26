@@ -559,6 +559,8 @@ function FinanceTab({ ayarlar={} }) {
 
   // Otomatik maaş ve prim ekleme — ayarlar değişince güncelle
   useEffect(() => {
+    const currentMaas = ayarlar.maasUcret || 66920;
+    const currentPrim = ayarlar.primUcret || 56750;
     const PRIM_AYLAR = [0, 3, 6, 9];
     const YILLAR = [2026, 2027];
     setTxs(prev => {
@@ -568,19 +570,19 @@ function FinanceTab({ ayarlar={} }) {
         for (let month = 0; month < 12; month++) {
           const maasTx = updated.find(t => t.autoId===`maas-${year}-${month}`);
           if (!maasTx) {
-            updated.push({ id: Date.now()+Math.random(), autoId:`maas-${year}-${month}`, type:"gelir", catKey:"maas", catLabel:"Maaş", emoji:"💼", amount:MAAS, note:"Otomatik", day:15, month, year });
+            updated.push({ id: Date.now()+Math.random(), autoId:`maas-${year}-${month}`, type:"gelir", catKey:"maas", catLabel:"Maaş", emoji:"💼", amount:currentMaas, note:"Otomatik", day:15, month, year });
             changed = true;
-          } else if (maasTx.amount !== MAAS) {
-            updated = updated.map(t => t.autoId===`maas-${year}-${month}` ? {...t, amount:MAAS} : t);
+          } else if (maasTx.amount !== currentMaas) {
+            updated = updated.map(t => t.autoId===`maas-${year}-${month}` ? {...t, amount:currentMaas} : t);
             changed = true;
           }
           if (PRIM_AYLAR.includes(month)) {
             const primTx = updated.find(t => t.autoId===`prim-${year}-${month}`);
             if (!primTx) {
-              updated.push({ id: Date.now()+Math.random(), autoId:`prim-${year}-${month}`, type:"gelir", catKey:"ek", catLabel:"Prim", emoji:"🏆", amount:PRIM, note:"Çeyreklik Prim", day:15, month, year });
+              updated.push({ id: Date.now()+Math.random(), autoId:`prim-${year}-${month}`, type:"gelir", catKey:"ek", catLabel:"Prim", emoji:"🏆", amount:currentPrim, note:"Çeyreklik Prim", day:15, month, year });
               changed = true;
-            } else if (primTx.amount !== PRIM) {
-              updated = updated.map(t => t.autoId===`prim-${year}-${month}` ? {...t, amount:PRIM} : t);
+            } else if (primTx.amount !== currentPrim) {
+              updated = updated.map(t => t.autoId===`prim-${year}-${month}` ? {...t, amount:currentPrim} : t);
               changed = true;
             }
           }
@@ -588,7 +590,7 @@ function FinanceTab({ ayarlar={} }) {
       });
       return changed ? updated : prev;
     });
-  }, [MAAS, PRIM]);
+  }, [ayarlar.maasUcret, ayarlar.primUcret]);
 
   // Pasif gelirleri her ay otomatik enjekte et
   useEffect(() => {
@@ -981,7 +983,7 @@ function FinanceTab({ ayarlar={} }) {
       {[...monthTxs].sort((a,b)=>b.day-a.day).map(t=>{
         const isDgider  = t.autoId && t.autoId.startsWith("dgider-");
         const isPasif   = t.autoId && t.autoId.startsWith("pasif-");
-        const isMaas    = t.autoId && (t.autoId.startsWith("maas-") || t.autoId.startsWith("prim-"));
+        const isMaas    = false; // artık silinemez değil
         const srcId = isDgider ? t.autoId.split("-")[1] : isPasif ? t.autoId.split("-")[1] : null;
         const handleDelete = () => {
           if (isDgider && srcId) {
@@ -1018,6 +1020,9 @@ function FinanceTab({ ayarlar={} }) {
         </div>
         );
       })}
+
+      {/* Yatırımlar & Borçlar */}
+      <YatirimBorcPanel PB={PB}/>
 
       {/* Yıllık Özet */}
       <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14, marginBottom:14, marginTop:14 }}>
@@ -1072,9 +1077,6 @@ function FinanceTab({ ayarlar={} }) {
           </div>
         </div>
       </div>
-
-      {/* Yatırımlar & Borçlar */}
-      <YatirimBorcPanel PB={PB}/>
 
     </div>
   );
@@ -1486,10 +1488,10 @@ function ZincirTakvim({ tasks }) {
     }
   }, [hepsiTamamlandi]);
 
-  // Son 20 gün (bugün dahil)
+  // 14 geçmiş + bugün + 5 gelecek = 20 gün
   const days = Array.from({length:20}, (_, i) => {
     const d = new Date(today);
-    d.setDate(today.getDate() - (19 - i));
+    d.setDate(today.getDate() - 14 + i);
     return d;
   });
 
@@ -1505,8 +1507,7 @@ function ZincirTakvim({ tasks }) {
     <div style={{ background:COLORS.card, borderRadius:16, border:`1px solid ${COLORS.cardBorder}`, padding:14, marginTop:14 }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
         <div>
-          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:13 }}>🔥 Don't Break The Chain</div>
-          <div style={{ color:COLORS.muted, fontSize:11, marginTop:2 }}>Son 20 gün</div>
+          <div style={{ color:COLORS.text, fontWeight:"bold", fontSize:13 }}>🔥 Zinciri Kırma!</div>
         </div>
         <div style={{ background:zincirUzunlugu>0?"#FF6B3520":COLORS.bg, border:`1px solid ${zincirUzunlugu>0?COLORS.accent:COLORS.cardBorder}`, borderRadius:12, padding:"6px 12px", textAlign:"center" }}>
           <div style={{ color:zincirUzunlugu>0?COLORS.accent:COLORS.muted, fontSize:18, fontWeight:"bold" }}>{zincirUzunlugu}</div>
@@ -1518,12 +1519,13 @@ function ZincirTakvim({ tasks }) {
           const dStr = d.toDateString();
           const isToday = dStr === todayStr;
           const done = zincir[dStr];
+          const isFuture = d > today;
           return (
             <div key={i} style={{
               aspectRatio:"1", borderRadius:8, display:"flex", flexDirection:"column",
               alignItems:"center", justifyContent:"center", gap:1,
               background: done ? "#FF6B35" : isToday ? COLORS.accentSoft : COLORS.bg,
-              border: isToday ? `2px solid ${COLORS.accent}` : `1px solid ${COLORS.cardBorder}`,
+              border: isToday ? `2px solid ${COLORS.accent}` : isFuture ? `1px dashed ${COLORS.cardBorder}` : `1px solid ${COLORS.cardBorder}`,
             }}>
               <span style={{ fontSize:8, color:done?"#fff":isToday?COLORS.accent:COLORS.muted, fontWeight:isToday?"bold":"normal" }}>
                 {d.getDate()}
@@ -1565,7 +1567,7 @@ function GorevAsistani() {
   const [newPriority, setNewPriority] = useState("orta");
   const [newType, setNewType]         = useState("gunluk");
   const [activeTab, setActiveTab]     = useState("tasks");
-  const [filter, setFilter]           = useState("tümü");
+  const [filter, setFilter]           = useState("tekrarlayan");
   const [showAddTask, setShowAddTask] = useState(false);
   const [toasts, setToasts]           = useState([]);
   const [dismissed, setDismissed]     = useState(new Set());
@@ -1586,13 +1588,6 @@ function GorevAsistani() {
     }; } catch { return { appAdi:"Asistan Zi", tema:"gece", paraBirimi:"₺", mesaiUcret1:315, mesaiUcret2:378, mesaiBayram:436, mesaiAktif:true, maasUcret:66920, primUcret:56750 }; }
   });
   const setAyarlar = v => { const val = typeof v==="function"?v(ayarlar):v; localStorage.setItem("ga_ayarlar",JSON.stringify(val)); setAyarlarRaw(val); };
-
-  // Tema renkleri
-  const TEMA = ayarlar.tema === "gunduz" ? {
-    ...COLORS,
-    bg:"#F5F5F0", card:"#FFFFFF", cardBorder:"#E0DDD8",
-    text:"#1A1A22", muted:"#7A7A8C",
-  } : COLORS;
 
   useEffect(()=>{ /* chatEnd scroll removed */ }, []);
 
@@ -1641,23 +1636,18 @@ function GorevAsistani() {
   }, []);
 
   const todayReminders = reminders.filter(r => r.day === today.getDate());
-  const completedCount = tasks.filter(t => t.done).length;
-  const progress       = tasks.length ? Math.round(completedCount/tasks.length*100) : 0;
+  const tekrarlayenGorevler = tasks.filter(t => t.type !== "teksefer");
+  const completedCount = tekrarlayenGorevler.filter(t => t.done).length;
+  const progress = tekrarlayenGorevler.length ? Math.round(completedCount/tekrarlayenGorevler.length*100) : 0;
 
   const addTask = () => {
     if (!newTask.trim()) return;
     setTasks(p=>[...p,{ id:Date.now(), text:newTask.trim(), priority:newPriority, type:newType, done:false, createdAt:Date.now() }]);
     setNewTask("");
     setShowAddTask(false);
+    // Eklenen göreve göre sekmeye geç
+    setFilter(newType==="teksefer" ? "teksefer" : "tekrarlayan");
   };
-
-  const priorityOrder = { yüksek: 0, orta: 1, düşük: 2 };
-  const filteredTasks = tasks
-    .filter(t => filter==="tamamlanan" ? t.done : filter==="bekleyen" ? !t.done : true)
-    .sort((a, b) => {
-      if (a.done !== b.done) return a.done ? 1 : -1;
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
-    });
 
   // Test: show all reminders as "tomorrow" notifications
   const testNotifications = () => {
@@ -2169,15 +2159,34 @@ function YatirimTab({ ayarlar={} }) {
   <script>
     if ('serviceWorker' in navigator) {
       const swCode = `
-const CACHE = 'asistan-zi-v2';
+const CACHE = 'asistan-zi-v3';
+const URLS = [
+  location.href,
+  'https://unpkg.com/react@18/umd/react.production.min.js',
+  'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
+  'https://unpkg.com/@babel/standalone/babel.min.js'
+];
 self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS).catch(()=>{})));
   self.skipWaiting();
 });
 self.addEventListener('activate', e => {
-  e.waitUntil(clients.claim());
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+  clients.claim();
 });
 self.addEventListener('fetch', e => {
-  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        if (res && res.status === 200) {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => cached);
+    })
+  );
 });
 `;
       const blob = new Blob([swCode], {type: 'application/javascript'});
