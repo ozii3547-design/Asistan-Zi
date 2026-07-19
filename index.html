@@ -4,10 +4,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Asistan Zi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkFzaXN0YW4gWmkiLCAic2hvcnRfbmFtZSI6ICJBc2lzdGFuIFppIiwgImRlc2NyaXB0aW9uIjogIktpXHUwMTVmaXNlbCBwbGFubGFtYSB1eWd1bGFtYXNcdTAxMzEiLCAic3RhcnRfdXJsIjogIi4vaW5kZXguaHRtbCIsICJzY29wZSI6ICIuLyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEYwRjEzIiwgInRoZW1lX2NvbG9yIjogIiNGRjZCMzUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhkcFpIUm9QU0l4T1RJaUlHaGxhV2RvZEQwaU1Ua3lJajRLSUNBOGNtVmpkQ0IzYVdSMGFEMGlNVGt5SWlCb1pXbG5hSFE5SWpFNU1pSWdjbmc5SWpRd0lpQm1hV3hzUFNJak1FWXdSakV6SWk4K0NpQWdQSFJsZUhRZ2VEMGlPVFlpSUhrOUlqRXpNQ0lnWm05dWRDMXphWHBsUFNJeE1EQWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpSUdadmJuUXRabUZ0YVd4NVBTSnpaWEpwWmlJKzhKK1hrend2ZEdWNGRENEtQQzl6ZG1jKyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9LCB7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhPVElpSUdobGFXZG9kRDBpTVRreUlqNEtJQ0E4Y21WamRDQjNhV1IwYUQwaU1Ua3lJaUJvWldsbmFIUTlJakU1TWlJZ2NuZzlJalF3SWlCbWFXeHNQU0lqTUVZd1JqRXpJaTgrQ2lBZ1BIUmxlSFFnZUQwaU9UWWlJSGs5SWpFek1DSWdabTl1ZEMxemFYcGxQU0l4TURBaUlIUmxlSFF0WVc1amFHOXlQU0p0YVdSa2JHVWlJR1p2Ym5RdFptRnRhV3g1UFNKelpYSnBaaUkrOEorWGt6d3ZkR1Y0ZEQ0S1BDOXpkbWMrIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ=="/>
   <meta name="theme-color" content="#FF6B35"/>
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -1660,7 +1661,6 @@ function GorevAsistani() {
 
   return (
     <div style={{ minHeight:"100vh", background:COLORS.bg, display:"flex", justifyContent:"center", fontFamily:"'Poppins', 'Segoe UI', sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');`}</style>
       <NotificationToast notifications={toasts} onDismiss={dismissToast}/>
       <div style={{ width:"100%", maxWidth:390, minHeight:"100vh", display:"flex", flexDirection:"column" }}>
 
@@ -2150,49 +2150,6 @@ function YatirimTab({ ayarlar={} }) {
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<GorevAsistani/>);
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-const CACHE = 'asistan-zi-v3';
-const URLS = [
-  location.href,
-  'https://unpkg.com/react@18/umd/react.production.min.js',
-  'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
-  'https://unpkg.com/@babel/standalone/babel.min.js'
-];
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS).catch(()=>{})));
-  self.skipWaiting();
-});
-self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
-  clients.claim();
-});
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res && res.status === 200) {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      }).catch(() => cached);
-    })
-  );
-});
-`;
-      const blob = new Blob([swCode], {type: 'application/javascript'});
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).then(r => console.log('SW registered')).catch(e => console.log('SW error', e));
-    }
   </script>
 </body>
 </html>
